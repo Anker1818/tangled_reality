@@ -40,36 +40,41 @@ const moveSpeed = 0.1;
 let moveForward = false;
 let moveBackward = false;
 
-// Función para detectar controladores VR y entradas de Gamepad (PS4)
-let controller = null;
+
 let gamepad = null;
 
-function setupControllers() {
-  // Detecta los controladores VR
-  const controllers = renderer.xr.getControllers();
-  controller = controllers[0];
-  scene.add(controller);
-}
+
+let isInVR = false;
+
+// Función para detectar cuando WebXR se activa
+renderer.xr.getSession().then(session => {
+  isInVR = true;  // Se activa WebXR
+  session.addEventListener('end', () => {
+    isInVR = false;  // Se desactiva WebXR
+  });
+});
 
 function animate() {
-  // Obtiene los gamepads conectados (para controlar el PS4)
-  const gamepads = navigator.getGamepads();
-  if (gamepads[0]) {
-    gamepad = gamepads[0]; // Usamos el primer gamepad conectado
+  if (!isInVR) {
+    // Solo procesar la entrada del gamepad si no estamos en VR
+    const gamepads = navigator.getGamepads();
+    if (gamepads[0]) {
+      gamepad = gamepads[0];  // Usamos el primer gamepad conectado
 
-    // Detectamos la entrada del joystick izquierdo para el movimiento hacia adelante y hacia atrás
-    const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
+      // Detectamos la entrada del joystick izquierdo para el movimiento hacia adelante y hacia atrás
+      const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
 
-    // Lógica para mover hacia adelante o atrás según el eje Y del joystick izquierdo
-    if (leftStickY > 0.1) {
-      moveForward = false;
-      moveBackward = true;
-    } else if (leftStickY < -0.1) {
-      moveBackward = false;
-      moveForward = true;
-    } else {
-      moveForward = false;
-      moveBackward = false;
+      // Lógica para mover hacia adelante o hacia atrás según el eje Y del joystick izquierdo
+      if (leftStickY > 0.1) {
+        moveForward = false;
+        moveBackward = true;
+      } else if (leftStickY < -0.1) {
+        moveBackward = false;
+        moveForward = true;
+      } else {
+        moveForward = false;
+        moveBackward = false;
+      }
     }
   }
 
@@ -87,8 +92,3 @@ function animate() {
 
   renderer.render(scene, camera);
 }
-
-// Inicializamos controladores y WebXR
-renderer.xr.getSession().then(() => {
-  setupControllers();
-});
