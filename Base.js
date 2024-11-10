@@ -39,8 +39,6 @@ const moveSpeed = 0.1;
 // Variables de control de movimiento
 let moveForward = false;
 let moveBackward = false;
-let moveLeft = false;
-let moveRight = false;
 
 // Función para detectar controladores VR y entradas de Gamepad (PS4)
 let controller = null;
@@ -59,11 +57,10 @@ function animate() {
   if (gamepads[0]) {
     gamepad = gamepads[0]; // Usamos el primer gamepad conectado
 
-    // Detectamos la entrada de los joysticks del control PS4
-    const leftStickX = gamepad.axes[0];  // Eje X del joystick izquierdo
+    // Detectamos la entrada del joystick izquierdo para el movimiento hacia adelante y hacia atrás
     const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
 
-    // Lógica para mover la cámara según los joysticks
+    // Lógica para mover hacia adelante o atrás según el eje Y del joystick izquierdo
     if (leftStickY > 0.1) {
       moveForward = true;
       moveBackward = false;
@@ -74,39 +71,18 @@ function animate() {
       moveForward = false;
       moveBackward = false;
     }
-
-    if (leftStickX > 0.1) {
-      moveRight = true;
-      moveLeft = false;
-    } else if (leftStickX < -0.1) {
-      moveLeft = true;
-      moveRight = false;
-    } else {
-      moveLeft = false;
-      moveRight = false;
-    }
-
-    // Usamos los botones para alguna otra acción, por ejemplo:
-    if (gamepad.buttons[0].pressed) { // X en PS4
-      console.log("Botón X presionado");
-    }
   }
 
-  // Mover la cámara según la entrada
+  // Obtener la dirección en la que la cámara está mirando
   const direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
 
+  // Hacer que el movimiento dependa de la dirección de la cámara
   if (moveForward) {
-    camera.position.addScaledVector(direction, moveSpeed);
+    camera.position.addScaledVector(direction, moveSpeed);  // Avanzar
   }
   if (moveBackward) {
-    camera.position.addScaledVector(direction, -moveSpeed);
-  }
-  if (moveLeft) {
-    camera.position.x -= moveSpeed;
-  }
-  if (moveRight) {
-    camera.position.x += moveSpeed;
+    camera.position.addScaledVector(direction, -moveSpeed); // Retroceder
   }
 
   renderer.render(scene, camera);
