@@ -40,8 +40,16 @@ const moveSpeed = 0.1;
 let moveForward = false;
 let moveBackward = false;
 
-// Función para detectar controladores de PS4 (gamepad)
+// Función para detectar controladores VR y entradas de Gamepad (PS4)
+let controller = null;
 let gamepad = null;
+
+function setupControllers() {
+  // Detecta los controladores VR
+  const controllers = renderer.xr.getControllers();
+  controller = controllers[0];
+  scene.add(controller);
+}
 
 function animate() {
   // Obtiene los gamepads conectados (para controlar el PS4)
@@ -49,16 +57,16 @@ function animate() {
   if (gamepads[0]) {
     gamepad = gamepads[0]; // Usamos el primer gamepad conectado
 
-    // Detectamos la entrada del joystick izquierdo (eje Y) para el movimiento hacia adelante y hacia atrás
+    // Detectamos la entrada del joystick izquierdo para el movimiento hacia adelante y hacia atrás
     const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
 
     // Lógica para mover hacia adelante o atrás según el eje Y del joystick izquierdo
-    if (leftStickY < -0.1) {
-      moveForward = true;
-      moveBackward = false;
-    } else if (leftStickY > 0.1) {
-      moveBackward = true;
+    if (leftStickY > 0.1) {
       moveForward = false;
+      moveBackward = true;
+    } else if (leftStickY < -0.1) {
+      moveBackward = false;
+      moveForward = true;
     } else {
       moveForward = false;
       moveBackward = false;
@@ -80,7 +88,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-// Hacer que los controles funcionen en VR
+// Inicializamos controladores y WebXR
 renderer.xr.getSession().then(() => {
-  // Esto asegura que WebXR esté correctamente configurado, pero no es necesario para los gamepads PS4.
+  setupControllers();
 });
