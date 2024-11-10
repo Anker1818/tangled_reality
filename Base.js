@@ -39,56 +39,80 @@ const moveSpeed = 0.1;
 // Variables de control de movimiento
 let moveForward = false;
 let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
+let moveUp = false;
+let moveDown = false;
 
-// Función para detectar controladores VR
 let controller = null;
-let controllerGrip = null;
-let leftController = null;
-let rightController = null;
+let gamepad = null;
 
 function setupControllers() {
-  // Detecta los controladores VR
   const controllers = renderer.xr.getControllers();
-  leftController = controllers[0];
-  rightController = controllers[1];
-
-  scene.add(leftController);
-  scene.add(rightController);
+  controller = controllers[0];
+  scene.add(controller);
 }
 
 function animate() {
-  // Detectar entrada de controladores VR para el movimiento
-  if (leftController) {
-    const controllerPosition = leftController.position;
-    // Puedes configurar el controlador izquierdo para que mueva hacia adelante o hacia atrás
-    if (controllerPosition.z > 0.1) {  // Lógica para mover hacia adelante
+  if (gamepad) {
+    const gamepadData = navigator.getGamepads()[0];
+
+    // Obtener los valores de los ejes del control
+    const leftStickX = gamepadData.axes[0];  // Eje X del joystick izquierdo
+    const leftStickY = gamepadData.axes[1];  // Eje Y del joystick izquierdo
+
+    // Decidir el movimiento
+    if (leftStickY > 0.1) {
       moveForward = true;
       moveBackward = false;
-    } else if (controllerPosition.z < -0.1) {  // Lógica para mover hacia atrás
+    } else if (leftStickY < -0.1) {
       moveBackward = true;
       moveForward = false;
     } else {
       moveForward = false;
       moveBackward = false;
     }
+
+    if (leftStickX > 0.1) {
+      moveRight = true;
+      moveLeft = false;
+    } else if (leftStickX < -0.1) {
+      moveLeft = true;
+      moveRight = false;
+    } else {
+      moveLeft = false;
+      moveRight = false;
+    }
   }
 
-  // Obtener la dirección en la que la cámara está mirando
+  // Mover la cámara
   const direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
 
-  // Hacer que el movimiento dependa de la dirección de la cámara
   if (moveForward) {
-    camera.position.addScaledVector(direction, moveSpeed);  // Avanzar
+    camera.position.addScaledVector(direction, moveSpeed);
   }
   if (moveBackward) {
-    camera.position.addScaledVector(direction, -moveSpeed); // Retroceder
+    camera.position.addScaledVector(direction, -moveSpeed);
+  }
+  if (moveLeft) {
+    camera.position.x -= moveSpeed;
+  }
+  if (moveRight) {
+    camera.position.x += moveSpeed;
+  }
+
+  // Actualizar el controlador
+  if (controller) {
+    const controllerData = controller.getWorldPosition();
+    // Puedes agregar la lógica para usar el controlador para mover o interactuar
   }
 
   renderer.render(scene, camera);
 }
 
-// Inicializamos controladores y WebXR
-renderer.xr.getSession().then(() => {
+// Configurar el controlador y WebXR
+renderer.xr.getSession().then((session) => {
   setupControllers();
 });
+
