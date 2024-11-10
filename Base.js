@@ -36,10 +36,28 @@ camera.position.z = 5;
 // Velocidad de movimiento
 const moveSpeed = 0.1; 
 
-// Umbral para detectar el movimiento
-const threshold = 0.1;
+// Variables de control de movimiento
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
 
-// Detectar los controles
+// Event Listeners para el teclado (W, A, S, D)
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'w') moveForward = true;
+    if (event.key === 's') moveBackward = true;
+    if (event.key === 'a') moveLeft = true;
+    if (event.key === 'd') moveRight = true;
+});
+
+window.addEventListener('keyup', (event) => {
+    if (event.key === 'w') moveForward = false;
+    if (event.key === 's') moveBackward = false;
+    if (event.key === 'a') moveLeft = false;
+    if (event.key === 'd') moveRight = false;
+});
+
+// Detectar los controles del gamepad
 let gamepad = null;
 
 window.addEventListener('gamepadconnected', (event) => {
@@ -58,33 +76,56 @@ function monitorGamepad() {
         // Monitorear el estado de los joysticks (ejes)
         const leftStickX = gamepad.axes[0]; // Movimiento horizontal joystick izquierdo
         const leftStickY = gamepad.axes[1]; // Movimiento vertical joystick izquierdo
-        const rightStickX = gamepad.axes[2]; // Movimiento horizontal joystick derecho
-        const rightStickY = gamepad.axes[3]; // Movimiento vertical joystick derecho
 
         // Usar los joysticks para mover la cámara
         const direction = new THREE.Vector3();
 
         // Movimiento de la cámara usando el joystick izquierdo
-        if (leftStickY > threshold) {
-            camera.position.z -= moveSpeed; // Hacia adelante
-        } else if (leftStickY < -threshold) {
-            camera.position.z += moveSpeed; // Hacia atrás
+        if (leftStickY > 0.1) {
+            moveForward = true;
+            moveBackward = false;
+        } else if (leftStickY < -0.1) {
+            moveBackward = true;
+            moveForward = false;
+        } else {
+            moveForward = false;
+            moveBackward = false;
         }
 
-        if (leftStickX > threshold) {
-            camera.position.x -= moveSpeed; // Hacia la derecha
-        } else if (leftStickX < -threshold) {
-            camera.position.x += moveSpeed; // Hacia la izquierda
+        if (leftStickX > 0.1) {
+            moveRight = true;
+            moveLeft = false;
+        } else if (leftStickX < -0.1) {
+            moveLeft = true;
+            moveRight = false;
+        } else {
+            moveLeft = false;
+            moveRight = false;
         }
-
-        // Llamar nuevamente para seguir monitorizando el gamepad
-        requestAnimationFrame(monitorGamepad);
     }
 }
 
 function animate() {
+    // Obtener la dirección de la cámara
+    const direction = new THREE.Vector3();
+    camera.getWorldDirection(direction);
+
+    // Mover la cámara dependiendo de los valores de los controles
+    if (moveForward) {
+        camera.position.addScaledVector(direction, moveSpeed);
+    }
+    if (moveBackward) {
+        camera.position.addScaledVector(direction, -moveSpeed);
+    }
+    if (moveLeft) {
+        camera.position.x -= moveSpeed;
+    }
+    if (moveRight) {
+        camera.position.x += moveSpeed;
+    }
+
+    // Monitorear los controles del gamepad en cada fotograma
     if (gamepad) {
-        // Actualizar estado de los controles en cada fotograma
         monitorGamepad();
     }
 
