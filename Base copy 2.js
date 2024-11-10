@@ -40,62 +40,36 @@ const moveSpeed = 0.1;
 let moveForward = false;
 let moveBackward = false;
 
-// Detectar el controlador VR y el Gamepad PS4
+// Función para detectar controladores VR y entradas de Gamepad (PS4)
 let controller = null;
 let gamepad = null;
 
 function setupControllers() {
-  // Detecta los controladores VR (WebXR)
+  // Detecta los controladores VR
   const controllers = renderer.xr.getControllers();
   controller = controllers[0];
   scene.add(controller);
 }
 
 function animate() {
-  // Si estamos en una sesión VR y tenemos un gamepad conectado
-  if (renderer.xr.isPresenting) {
-    // Obtener el estado del controlador WebXR
-    const inputSource = controller.inputSource;
+  // Obtiene los gamepads conectados (para controlar el PS4)
+  const gamepads = navigator.getGamepads();
+  if (gamepads[0]) {
+    gamepad = gamepads[0]; // Usamos el primer gamepad conectado
 
-    if (inputSource) {
-      const gamepadInput = inputSource.gamepad; // Obtenemos el gamepad del controlador VR
+    // Detectamos la entrada del joystick izquierdo para el movimiento hacia adelante y hacia atrás
+    const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
 
-      // Detectamos el eje del joystick izquierdo
-      const leftStickY = gamepadInput.axes[1];
-
-      if (leftStickY < -0.1) {
-        moveForward = true;
-        moveBackward = false;
-      } else if (leftStickY > 0.1) {
-        moveBackward = true;
-        moveForward = false;
-      } else {
-        moveForward = false;
-        moveBackward = false;
-      }
-    }
-  }
-
-  // Si no estamos en modo VR, usamos el gamepad PS4
-  if (!renderer.xr.isPresenting) {
-    const gamepads = navigator.getGamepads();
-    if (gamepads[0]) {
-      gamepad = gamepads[0]; // Usamos el primer gamepad conectado
-
-      // Detectamos la entrada del joystick izquierdo (eje Y) para el movimiento hacia adelante y hacia atrás
-      const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
-
-      // Lógica para mover hacia adelante o atrás según el eje Y del joystick izquierdo
-      if (leftStickY < -0.1) {
-        moveForward = true;
-        moveBackward = false;
-      } else if (leftStickY > 0.1) {
-        moveBackward = true;
-        moveForward = false;
-      } else {
-        moveForward = false;
-        moveBackward = false;
-      }
+    // Lógica para mover hacia adelante o atrás según el eje Y del joystick izquierdo
+    if (leftStickY > 0.1) {
+      moveForward = false;
+      moveBackward = true;
+    } else if (leftStickY < -0.1) {
+      moveBackward = false;
+      moveForward = true;
+    } else {
+      moveForward = false;
+      moveBackward = false;
     }
   }
 
