@@ -62,11 +62,11 @@ function animate() {
 
     // Lógica para mover hacia adelante o atrás según el eje Y del joystick izquierdo
     if (leftStickY > 0.1) {
-      moveForward = true;
-      moveBackward = false;
-    } else if (leftStickY < -0.1) {
-      moveBackward = true;
       moveForward = false;
+      moveBackward = true;
+    } else if (leftStickY < -0.1) {
+      moveBackward = false;
+      moveForward = true;
     } else {
       moveForward = false;
       moveBackward = false;
