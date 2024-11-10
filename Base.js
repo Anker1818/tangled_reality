@@ -41,27 +41,29 @@ let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
-let moveUp = false;
-let moveDown = false;
 
+// Función para detectar controladores VR y entradas de Gamepad (PS4)
 let controller = null;
 let gamepad = null;
 
 function setupControllers() {
+  // Detecta los controladores VR
   const controllers = renderer.xr.getControllers();
   controller = controllers[0];
   scene.add(controller);
 }
 
 function animate() {
-  if (gamepad) {
-    const gamepadData = navigator.getGamepads()[0];
+  // Obtiene los gamepads conectados (para controlar el PS4)
+  const gamepads = navigator.getGamepads();
+  if (gamepads[0]) {
+    gamepad = gamepads[0]; // Usamos el primer gamepad conectado
 
-    // Obtener los valores de los ejes del control
-    const leftStickX = gamepadData.axes[0];  // Eje X del joystick izquierdo
-    const leftStickY = gamepadData.axes[1];  // Eje Y del joystick izquierdo
+    // Detectamos la entrada de los joysticks del control PS4
+    const leftStickX = gamepad.axes[0];  // Eje X del joystick izquierdo
+    const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
 
-    // Decidir el movimiento
+    // Lógica para mover la cámara según los joysticks
     if (leftStickY > 0.1) {
       moveForward = true;
       moveBackward = false;
@@ -83,9 +85,14 @@ function animate() {
       moveLeft = false;
       moveRight = false;
     }
+
+    // Usamos los botones para alguna otra acción, por ejemplo:
+    if (gamepad.buttons[0].pressed) { // X en PS4
+      console.log("Botón X presionado");
+    }
   }
 
-  // Mover la cámara
+  // Mover la cámara según la entrada
   const direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
 
@@ -102,17 +109,10 @@ function animate() {
     camera.position.x += moveSpeed;
   }
 
-  // Actualizar el controlador
-  if (controller) {
-    const controllerData = controller.getWorldPosition();
-    // Puedes agregar la lógica para usar el controlador para mover o interactuar
-  }
-
   renderer.render(scene, camera);
 }
 
-// Configurar el controlador y WebXR
-renderer.xr.getSession().then((session) => {
+// Inicializamos controladores y WebXR
+renderer.xr.getSession().then(() => {
   setupControllers();
 });
-
