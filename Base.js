@@ -142,3 +142,9 @@ function animate() {
 	renderer.render(scene, camera);
   }
   
+
+  // Inicializamos controladores y WebXR
+renderer.xr.getSession().then(() => {
+	setupControllers();
+  });
+  
