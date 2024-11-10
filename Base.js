@@ -62,17 +62,17 @@ function monitorGamepad() {
         const direction = new THREE.Vector3();
 
         // Movimiento de la cámara usando el joystick izquierdo
-        if (leftStickY > 0.1) {
+        if (leftStickY > 0.001) {
             camera.position.z -= moveSpeed; // Hacia adelante
         }
-        if (leftStickY < -0.1) {
+        if (leftStickY < -0.001) {
             camera.position.z += moveSpeed; // Hacia atrás
         }
 
-        if (leftStickX > 0.1) {
+        if (leftStickX > 0.001) {
             camera.position.x -= moveSpeed; // Hacia la derecha
         }
-        if (leftStickX < -0.1) {
+        if (leftStickX < -0.001) {
             camera.position.x += moveSpeed; // Hacia la izquierda
         }
 
