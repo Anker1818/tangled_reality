@@ -28,7 +28,7 @@ scene.add( cube );
 
 const geometry1 = new THREE.BoxGeometry( 2, 10, 2 );
 const arbol = new THREE.Mesh( geometry1, materialArbol1 );
-arbol.position.set(5, 5, 5);
+arbol.position.set(5, 4, 5);
 scene.add( arbol );
 
 camera.position.z = 5;
