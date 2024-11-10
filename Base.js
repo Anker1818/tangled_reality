@@ -61,10 +61,10 @@ function animate() {
     const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
 
     // Lógica para mover hacia adelante o atrás según el eje Y del joystick izquierdo
-    if (leftStickY > -0.1) {
+    if (leftStickY > 0.1) {
       moveForward = true;
       moveBackward = false;
-    } else if (leftStickY < 0.1) {
+    } else if (leftStickY < -0.1) {
       moveBackward = true;
       moveForward = false;
     } else {
