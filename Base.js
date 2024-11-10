@@ -40,33 +40,33 @@ const moveSpeed = 0.1;
 let moveForward = false;
 let moveBackward = false;
 
-// Función para detectar controladores VR y entradas de Gamepad (PS4)
+// Función para detectar controladores VR
 let controller = null;
-let gamepad = null;
+let controllerGrip = null;
+let leftController = null;
+let rightController = null;
 
 function setupControllers() {
   // Detecta los controladores VR
   const controllers = renderer.xr.getControllers();
-  controller = controllers[0];
-  scene.add(controller);
+  leftController = controllers[0];
+  rightController = controllers[1];
+
+  scene.add(leftController);
+  scene.add(rightController);
 }
 
 function animate() {
-  // Obtiene los gamepads conectados (para controlar el PS4)
-  const gamepads = navigator.getGamepads();
-  if (gamepads[0]) {
-    gamepad = gamepads[0]; // Usamos el primer gamepad conectado
-
-    // Detectamos la entrada del joystick izquierdo para el movimiento hacia adelante y hacia atrás
-    const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
-
-    // Lógica para mover hacia adelante o atrás según el eje Y del joystick izquierdo
-    if (leftStickY > 0.1) {
-      moveForward = false;
-      moveBackward = true;
-    } else if (leftStickY < -0.1) {
-      moveBackward = false;
+  // Detectar entrada de controladores VR para el movimiento
+  if (leftController) {
+    const controllerPosition = leftController.position;
+    // Puedes configurar el controlador izquierdo para que mueva hacia adelante o hacia atrás
+    if (controllerPosition.z > 0.1) {  // Lógica para mover hacia adelante
       moveForward = true;
+      moveBackward = false;
+    } else if (controllerPosition.z < -0.1) {  // Lógica para mover hacia atrás
+      moveBackward = true;
+      moveForward = false;
     } else {
       moveForward = false;
       moveBackward = false;
