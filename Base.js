@@ -51,6 +51,39 @@ window.addEventListener('keyup', (event) => {
     if (event.key === 's') moveBackward = false;
 });
 
+
+window.addEventListener("gamepadconnected", (event) => {
+    console.log("Gamepad connected:", event.gamepad);
+    alert("Gamepad conectado: " + event.gamepad.id);
+    monitorGamepad();
+});
+
+window.addEventListener("gamepaddisconnected", () => {
+    console.log("Gamepad disconnected");
+    alert("Gamepad desconectado");
+});
+
+function monitorGamepad() {
+    const gamepad = navigator.getGamepads()[0];
+    if (gamepad) {
+        // Monitorea el estado de los botones
+        gamepad.buttons.forEach((button, index) => {
+            if (button.pressed) {
+                console.log(`Botón ${index} presionado`);
+            }
+        });
+
+        // Monitorea el estado de los ejes (joystick)
+        gamepad.axes.forEach((axis, index) => {
+            console.log(`Eje ${index}: ${axis}`);
+        });
+    }
+
+    // Llama a monitorGamepad en el siguiente frame
+    requestAnimationFrame(monitorGamepad);
+}
+
+
 function animate() {
     // Obtener la dirección de la cámara
     const direction = new THREE.Vector3();
