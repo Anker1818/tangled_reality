@@ -36,6 +36,9 @@ camera.position.z = 5;
 // Velocidad de movimiento
 const moveSpeed = 0.1; 
 
+// Umbral para detectar el movimiento
+const threshold = 0.1;
+
 // Detectar los controles
 let gamepad = null;
 
@@ -62,17 +65,15 @@ function monitorGamepad() {
         const direction = new THREE.Vector3();
 
         // Movimiento de la cámara usando el joystick izquierdo
-        if (leftStickY > 0.001) {
+        if (leftStickY > threshold) {
             camera.position.z -= moveSpeed; // Hacia adelante
-        }
-        if (leftStickY < -0.001) {
+        } else if (leftStickY < -threshold) {
             camera.position.z += moveSpeed; // Hacia atrás
         }
 
-        if (leftStickX > 0.001) {
+        if (leftStickX > threshold) {
             camera.position.x -= moveSpeed; // Hacia la derecha
-        }
-        if (leftStickX < -0.001) {
+        } else if (leftStickX < -threshold) {
             camera.position.x += moveSpeed; // Hacia la izquierda
         }
 
