@@ -75,12 +75,10 @@ function updateCharacterMovement() {
 
     // Mover al personaje según las banderas
     if (moveForward) {
-      character.position.z -= speed * Math.cos(character.rotation.y);
-      character.position.x -= speed * Math.sin(character.rotation.y);
+      character.position.z -= speed
     }
     if (moveBackward) {
-      character.position.z += speed * Math.cos(character.rotation.y);
-      character.position.x += speed * Math.sin(character.rotation.y);
+      character.position.z += speed 
     }
   }
 }
