@@ -55,20 +55,33 @@ function updateCharacterMovement() {
   let moveForward = false;
   let moveBackward = false;
   if (gamepad) {
-      // Obtén el estado del joystick izquierdo
-      const leftStickY = gamepad.axes[1];
+    // Obtén el estado del joystick izquierdo
+    const leftStickY = gamepad.axes[1];
 
-      // Velocidad de movimiento
-      const speed = 0.1;
-
-      // Movimiento adelante y atrás según el eje Y del joystick
-
-      if (Math.abs(leftStickY) > 0.1) { // Solo si el joystick no está en la posición neutra
-        const direction = leftStickY < 0 ? 1 : -1; // 1 para adelante, -1 para atrás
-        character.position.z += direction * speed * Math.cos(character.rotation.y);
-        character.position.x += direction * speed * Math.sin(character.rotation.y);
+    // Detectar inclinación del joystick
+    if (leftStickY < -0.1) {
+      moveForward = true;
+      moveBackward = false;
+    } else if (leftStickY > 0.1) {
+      moveForward = false;
+      moveBackward = true;
+    } else {
+      moveForward = false;
+      moveBackward = false;
     }
 
+    // Velocidad de movimiento
+    const speed = 0.05;
+
+    // Mover al personaje según las banderas
+    if (moveForward) {
+      character.position.z -= speed * Math.cos(character.rotation.y);
+      character.position.x -= speed * Math.sin(character.rotation.y);
+    }
+    if (moveBackward) {
+      character.position.z += speed * Math.cos(character.rotation.y);
+      character.position.x += speed * Math.sin(character.rotation.y);
+    }
   }
 }
 
