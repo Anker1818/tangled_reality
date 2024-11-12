@@ -89,7 +89,10 @@ function updateCharacterMovement() {
 }
 
 function animate() {
+
+
       updateCharacterMovement();
+
+
       renderer.render(scene, camera);
 }
-animate();
