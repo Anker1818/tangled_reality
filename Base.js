@@ -46,51 +46,61 @@ let gamepad = null;
 
 let isInVR = false;
 
-// Función para detectar cuando WebXR se activa
-renderer.xr.getSession().then(session => {
-  isInVR = true;  // Se activa WebXR
-  session.addEventListener('end', () => {
-    isInVR = false;  // Se desactiva WebXR
-  });
-});
 
+
+const controller = renderer.xr.getController(0);
+scene.add(controller);
+
+// Detectar colisiones o acciones
+
+function Movimiento(){
+  controller.addEventListener('selectstart', (event) => {
+    console.log("Controlador activado");
+    if (!isInVR) {
+      // Solo procesar la entrada del gamepad si no estamos en VR
+      const gamepads = navigator.getGamepads();
+      if (gamepads[0]) {
+        gamepad = gamepads[0];  // Usamos el primer gamepad conectado
+  
+        // Detectamos la entrada del joystick izquierdo para el movimiento hacia adelante y hacia atrás
+        const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
+  
+        // Lógica para mover hacia adelante o hacia atrás según el eje Y del joystick izquierdo
+        if (leftStickY > 0.1) {
+          moveForward = false;
+          moveBackward = true;
+        } else if (leftStickY < -0.1) {
+          moveBackward = false;
+          moveForward = true;
+        } else {
+          moveForward = false;
+          moveBackward = false;
+        }
+      }
+    }
+  
+    // Obtener la dirección en la que la cámara está mirando
+    const direction = new THREE.Vector3();
+    camera.getWorldDirection(direction);
+  
+    // Hacer que el movimiento dependa de la dirección de la cámara
+    if (moveForward) {
+      camera.position.addScaledVector(direction, moveSpeed);  // Avanzar
+    }
+    if (moveBackward) {
+      camera.position.addScaledVector(direction, -moveSpeed); // Retroceder
+    }
+  
+  
+  
+  });
+  
+
+}
 
 
 function animate() {
-  if (!isInVR) {
-    // Solo procesar la entrada del gamepad si no estamos en VR
-    const gamepads = navigator.getGamepads();
-    if (gamepads[0]) {
-      gamepad = gamepads[0];  // Usamos el primer gamepad conectado
-
-      // Detectamos la entrada del joystick izquierdo para el movimiento hacia adelante y hacia atrás
-      const leftStickY = gamepad.axes[1];  // Eje Y del joystick izquierdo
-
-      // Lógica para mover hacia adelante o hacia atrás según el eje Y del joystick izquierdo
-      if (leftStickY > 0.1) {
-        moveForward = false;
-        moveBackward = true;
-      } else if (leftStickY < -0.1) {
-        moveBackward = false;
-        moveForward = true;
-      } else {
-        moveForward = false;
-        moveBackward = false;
-      }
-    }
-  }
-
-  // Obtener la dirección en la que la cámara está mirando
-  const direction = new THREE.Vector3();
-  camera.getWorldDirection(direction);
-
-  // Hacer que el movimiento dependa de la dirección de la cámara
-  if (moveForward) {
-    camera.position.addScaledVector(direction, moveSpeed);  // Avanzar
-  }
-  if (moveBackward) {
-    camera.position.addScaledVector(direction, -moveSpeed); // Retroceder
-  }
+  Movimiento();
 
   renderer.render(scene, camera);
 }
