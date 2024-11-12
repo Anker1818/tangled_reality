@@ -89,10 +89,9 @@ function updateCharacterMovement() {
 }
 
 function animate() {
-
-
+  renderer.setAnimationLoop(() => {
       updateCharacterMovement();
-
-
       renderer.render(scene, camera);
+  });
 }
+animate();
