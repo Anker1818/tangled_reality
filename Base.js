@@ -54,6 +54,8 @@ renderer.xr.getSession().then(session => {
   });
 });
 
+
+
 function animate() {
   if (!isInVR) {
     // Solo procesar la entrada del gamepad si no estamos en VR
