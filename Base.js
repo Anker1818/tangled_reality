@@ -58,23 +58,10 @@ function updateCharacterMovement() {
     // Obtén el estado del joystick izquierdo
     const leftStickY = gamepad.axes[1];
     const speed = 0.05;
-
-    // Detectar inclinación del joystick
-    if (leftStickY < -0.1) {
-      moveForward = true;
-      moveBackward = false;
-    } else if (leftStickY > 0.1) {
-      moveForward = false;
-      moveBackward = true;
-    } else {
-      moveForward = false;
-      moveBackward = false;
-    }
-
-    // Aplicar movimiento
-    if (moveForward) {
+    
+    if (leftStickY < -0.2) {
       character.position.z -= speed;  // Mueve hacia adelante
-    } else if (moveBackward) {
+    } else if (leftStickY > 0.2) {
       character.position.z += speed;  // Mueve hacia atrás
     }
     // Si el joystick está en el centro, no mover el personaje
