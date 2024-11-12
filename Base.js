@@ -47,19 +47,28 @@ const arbol = new THREE.Mesh(geometry1, materialArbol1);
 arbol.position.set(5, 4, 5);
 scene.add(arbol);
 
+
+
+
 function updateCharacterMovement() {
+
+  let moveForward = false;
+  let moveBackward = false;
   if (gamepad) {
       // Obtén el estado del joystick izquierdo
       const leftStickY = gamepad.axes[1];
 
       // Velocidad de movimiento
-      const speed = 0.05;
+      const speed = 0.1;
 
       // Movimiento adelante y atrás según el eje Y del joystick
-      if (Math.abs(leftStickY) > 0.1) {
-          character.position.z -= leftStickY * speed * Math.cos(character.rotation.y);
-          character.position.x -= leftStickY * speed * Math.sin(character.rotation.y);
-      }
+
+      if (Math.abs(leftStickY) > 0.1) { // Solo si el joystick no está en la posición neutra
+        const direction = leftStickY < 0 ? 1 : -1; // 1 para adelante, -1 para atrás
+        character.position.z += direction * speed * Math.cos(character.rotation.y);
+        character.position.x += direction * speed * Math.sin(character.rotation.y);
+    }
+
   }
 }
 
