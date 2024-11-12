@@ -63,17 +63,18 @@ function updateCharacterMovement() {
     if (leftStickY < -0.1) {
       moveForward = true;
       moveBackward = false;
-      character.position.z -= speed * Math.cos(character.rotation.y);
-      character.position.x -= speed * Math.sin(character.rotation.y);
-
     } else if (leftStickY > 0.1) {
       moveForward = false;
       moveBackward = true;
-      character.position.z += speed * Math.cos(character.rotation.y);
-      character.position.x += speed * Math.sin(character.rotation.y);
     } else {
       moveForward = false;
       moveBackward = false;
+    }
+
+    if (moveForward == true && moveBackward == false)
+    {
+      character.position.z = 0.5;
+
     }
   }
 }
