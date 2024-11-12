@@ -51,9 +51,9 @@ scene.add(arbol);
 
 
 function updateCharacterMovement() {
-
   let moveForward = false;
   let moveBackward = false;
+
   if (gamepad) {
     // Obtén el estado del joystick izquierdo
     const leftStickY = gamepad.axes[1];
@@ -71,20 +71,13 @@ function updateCharacterMovement() {
       moveBackward = false;
     }
 
-    if (moveForward == true && moveBackward == false)
-    {
-      character.position.z += 0.1;
-
+    // Aplicar movimiento
+    if (moveForward) {
+      character.position.z -= speed;  // Mueve hacia adelante
+    } else if (moveBackward) {
+      character.position.z += speed;  // Mueve hacia atrás
     }
-    else if (moveForward == false && moveBackward == true)
-    {
-      character.position.z -= 0.1;
-    }
-    else
-    {
-      character.position.z = 0;
-
-    }
+    // Si el joystick está en el centro, no mover el personaje
   }
 }
 
