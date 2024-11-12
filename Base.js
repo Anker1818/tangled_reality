@@ -73,12 +73,12 @@ function updateCharacterMovement() {
 
     if (moveForward == true && moveBackward == false)
     {
-      character.position.z += 0.5;
+      character.position.z += 0.1;
 
     }
     else if (moveForward == false && moveBackward == true)
     {
-      character.position.z -= 0.5;
+      character.position.z -= 0.1;
     }
     else
     {
@@ -89,9 +89,7 @@ function updateCharacterMovement() {
 }
 
 function animate() {
-  renderer.setAnimationLoop(() => {
       updateCharacterMovement();
       renderer.render(scene, camera);
-  });
 }
 animate();
