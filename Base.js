@@ -76,6 +76,15 @@ function updateCharacterMovement() {
       character.position.z += 0.5;
 
     }
+    else if (moveForward == false && moveBackward == true)
+    {
+      character.position.z -= 0.5;
+    }
+    else
+    {
+      character.position.z = 0;
+
+    }
   }
 }
 
