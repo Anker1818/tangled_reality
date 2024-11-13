@@ -78,10 +78,10 @@ function updateCharacterMovement() {
 
   // Hacer que el movimiento dependa de la dirección de la cámara
   if (moveForward) {
-    camera.position.addScaledVector(direction, moveSpeed);  // Avanzar
+    camera.position.addScaledVector(direction, speed);  // Avanzar
   }
   if (moveBackward) {
-    camera.position.addScaledVector(direction, -moveSpeed); // Retroceder
+    camera.position.addScaledVector(direction, -speed); // Retroceder
   }
 }
 
