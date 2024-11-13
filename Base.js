@@ -36,7 +36,7 @@ const textureArbol = new THREE.TextureLoader().load('Assets/Arbol1.jpg');
 const materialPasto1 = new THREE.MeshBasicMaterial({ map: texturePasto });
 const materialArbol1 = new THREE.MeshBasicMaterial({ map: textureArbol });
 
-const geometry = new THREE.BoxGeometry(30, 1, 30);
+const geometry = new THREE.BoxGeometry(50, 1, 50);
 const cube = new THREE.Mesh(geometry, materialPasto1);
 cube.position.set(0, -1, 0);
 scene.add(cube);
@@ -49,7 +49,15 @@ scene.add(arbol);
 let moveForward = false;  
 let moveBackward = false;
 let gamepad1 = null;
-const speed = 0.05;
+const speed = 0.1;
+
+
+
+// Gravedad
+
+const gravity = 0.01;  // Aceleración de la gravedad
+let verticalSpeed = 0; // Velocidad vertical del personaje
+
 
 
 function updateCharacterMovement() {
@@ -82,6 +90,16 @@ function updateCharacterMovement() {
   if (moveBackward) {
     character.position.addScaledVector(direction, -speed); // Retroceder
   }
+
+  if (character.position.y > -1) { // Verificar si el personaje está por encima del suelo
+    verticalSpeed -= gravity; // Aplicar gravedad
+  } else {
+    verticalSpeed = 0; // Detener la caída si está en el suelo
+    character.position.y = -1; // Asegurar que el personaje esté justo en el suelo
+  }
+
+  // Actualizar la posición del personaje con la velocidad vertical
+  character.position.y += verticalSpeed;
 }
 
 function animate() {
