@@ -2,7 +2,6 @@
 let gamepad;
 
 window.addEventListener("gamepadconnected", (event) => {
-  gamepad = navigator.getGamepads()[event.gamepad.index];
   console.log("Controlador conectado:", gamepad.id);
 });
 
@@ -47,24 +46,29 @@ const arbol = new THREE.Mesh(geometry1, materialArbol1);
 arbol.position.set(5, 4, 5);
 scene.add(arbol);
 
-
+let moveForward = false;  
+let moveBackward = false;
+let gamepad1 = null;
+const speed = 0.05;
 
 
 function updateCharacterMovement() {
-  let moveForward = false;  
-  let moveBackward = false;
+  gamepad = navigator.getGamepads();
 
-  if (gamepad) {
-    // Obtén el estado del joystick izquierdo
+
+  if (gamepad[0]) {
+    gamepad1=gamepad[0]
     const leftStickY = gamepad.axes[1];
-    const speed = 0.05;
-    
-    if (leftStickY < -0.1) {
-      character.position.z -= speed;  // Mueve hacia adelante
-      console.log("Pollo")
-    } else if (leftStickY > 0.1) {
-      character.position.z += speed;  // Mueve hacia atrás
-      console.log("Polllooss")
+
+    if (leftStickY > 0.1) {
+      moveForward = false;
+      moveBackward = true;
+    } else if (leftStickY < -0.1) {
+      moveBackward = false;
+      moveForward = true;
+    } else {
+      moveForward = false;
+      moveBackward = false;
     }
 
   }
