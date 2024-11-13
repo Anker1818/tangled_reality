@@ -57,8 +57,8 @@ function updateCharacterMovement() {
 
 
   if (gamepad[0]) {
-    gamepad1=gamepad[0]
-    const leftStickY = gamepad.axes[1];
+    gamepad1 = gamepad[0]; // Asigna gamepad1 correctamente
+    const leftStickY = gamepad1.axes[1]; // Accede a los ejes desde gamepad1
 
     if (leftStickY > 0.1) {
       moveForward = false;
@@ -70,7 +70,6 @@ function updateCharacterMovement() {
       moveForward = false;
       moveBackward = false;
     }
-
   }
 
   const direction = new THREE.Vector3();
