@@ -72,12 +72,21 @@ function updateCharacterMovement() {
     }
 
   }
+
+  const direction = new THREE.Vector3();
+  camera.getWorldDirection(direction);
+
+  // Hacer que el movimiento dependa de la dirección de la cámara
+  if (moveForward) {
+    camera.position.addScaledVector(direction, moveSpeed);  // Avanzar
+  }
+  if (moveBackward) {
+    camera.position.addScaledVector(direction, -moveSpeed); // Retroceder
+  }
 }
 
 function animate() {
-  renderer.setAnimationLoop(() => {
       updateCharacterMovement();
       renderer.render(scene, camera);
-  });
 }
 animate();
