@@ -46,6 +46,10 @@ const arbol = new THREE.Mesh(geometry1, materialArbol1);
 arbol.position.set(5, 4, 5);
 scene.add(arbol);
 
+const arbol1 = new THREE.Mesh(geometry1, materialArbol1);
+arbol1.position.set(10, 4, 10);
+scene.add(arbol1);
+
 let moveForward = false;  
 let moveBackward = false;
 let gamepad1 = null;
