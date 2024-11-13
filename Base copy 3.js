@@ -59,7 +59,6 @@ controller.addEventListener('selectstart', (event) => {
 
 
 function animate() {
-  if (!isInVR) {
     // Solo procesar la entrada del gamepad si no estamos en VR
     const gamepads = navigator.getGamepads();
     if (gamepads[0]) {
@@ -80,7 +79,6 @@ function animate() {
         moveBackward = false;
       }
     }
-  }
 
   // Obtener la dirección en la que la cámara está mirando
   const direction = new THREE.Vector3();

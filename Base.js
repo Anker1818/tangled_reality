@@ -51,7 +51,7 @@ scene.add(arbol);
 
 
 function updateCharacterMovement() {
-  let moveForward = false;
+  let moveForward = false;  
   let moveBackward = false;
 
   if (gamepad) {
@@ -59,12 +59,14 @@ function updateCharacterMovement() {
     const leftStickY = gamepad.axes[1];
     const speed = 0.05;
     
-    if (leftStickY < -0.2) {
+    if (leftStickY < -0.1) {
       character.position.z -= speed;  // Mueve hacia adelante
-    } else if (leftStickY > 0.2) {
+      console.log("Pollo")
+    } else if (leftStickY > 0.1) {
       character.position.z += speed;  // Mueve hacia atrás
+      console.log("Polllooss")
     }
-    // Si el joystick está en el centro, no mover el personaje
+
   }
 }
 
