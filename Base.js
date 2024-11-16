@@ -119,7 +119,7 @@ function updateCharacterMovement() {
 
 const raycaster = new THREE.Raycaster();
 
-const pointerGeometry = new THREE.ConeGeometry(0.1, 0.5, 32); // Cono de tamaño pequeño
+const pointerGeometry = new THREE.ConeGeometry(0.1, 0.3, 4); // Cono de tamaño pequeño
 const pointerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Material rojo
 const pointer = new THREE.Mesh(pointerGeometry, pointerMaterial);
 scene.add(pointer);
