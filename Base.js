@@ -126,7 +126,7 @@ scene.add(pointer);
 
 function updatePointer() {
   // Calcula la dirección del rayo
-  raycaster.ray.origin.copy(character.camera.position);
+  raycaster.ray.origin.copy(character.position);
   raycaster.ray.direction.set(0, 0, -1).applyQuaternion(camera.quaternion); // Dirección hacia adelante
 
   // Posiciona el puntero en la dirección del rayo
