@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 scene.background = new THREE.Color(0xccfffb);
 
@@ -12,6 +10,20 @@ renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
 renderer.xr.enabled = true;
 document.body.appendChild(VRButton.createButton(renderer));
+
+
+class Game {
+
+  constructor()
+  {
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.scene.background = new THREE.Color(0xccfffb);
+    
+  }
+
+
+}
 
 // Texturas
 const texturePasto = new THREE.TextureLoader().load('Assets/Pasto1.jpg');
