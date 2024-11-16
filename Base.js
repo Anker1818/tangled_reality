@@ -117,14 +117,15 @@ function updateCharacterMovement() {
   character.position.y += verticalSpeed;
 }
 
+const raycaster = new THREE.Raycaster();
 
 function shootRay() {
   gamepad = navigator.getGamepads();
-  if (gamepad) {
+  if (gamepad[0]) {
 
     gamepad1 = gamepad[0]; // Asigna gamepad1 correctamente
     // Obtener el gatillo derecho (botón 5 en la mayoría de los controladores)
-    const rightTrigger = gamepad1.buttons[5].value;
+    const rightTrigger = gamepad1.buttons[7].value;
     
     if (rightTrigger > 0.5) { // Si el gatillo está presionado
       console.log("POlo")
