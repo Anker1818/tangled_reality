@@ -119,6 +119,24 @@ function updateCharacterMovement() {
 
 const raycaster = new THREE.Raycaster();
 
+const pointerGeometry = new THREE.ConeGeometry(0.1, 0.5, 32); // Cono de tamaño pequeño
+const pointerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Material rojo
+const pointer = new THREE.Mesh(pointerGeometry, pointerMaterial);
+scene.add(pointer);
+
+function updatePointer() {
+  // Calcula la dirección del rayo
+  raycaster.ray.origin.copy(camera.position);
+  raycaster.ray.direction.set(0, 0, -1).applyQuaternion(camera.quaternion); // Dirección hacia adelante
+
+  // Posiciona el puntero en la dirección del rayo
+  pointer.position.copy(raycaster.ray.origin);
+  pointer.position.add(raycaster.ray.direction.clone().multiplyScalar(5)); // Ajusta la distancia del puntero
+
+  // Orienta el puntero en la dirección del rayo
+  pointer.lookAt(pointer.position.clone().add(raycaster.ray.direction)); // Asegura que apunte hacia adelante
+}
+
 function shootRay() {
   gamepad = navigator.getGamepads();
   if (gamepad[0]) {
