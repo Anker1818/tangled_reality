@@ -124,6 +124,7 @@ function shootRay() {
     const rightTrigger = gamepad1.buttons[5].value;
     
     if (rightTrigger > 0.5) { // Si el gatillo está presionado
+      console.log("POlo")
       raycaster.ray.origin.copy(camera.position);
       raycaster.ray.direction.set(0, 0, -1).applyQuaternion(camera.quaternion); // Rayo apuntando hacia adelante
 
