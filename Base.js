@@ -166,6 +166,7 @@ function animate() {
   renderer.setAnimationLoop(() => {
       updateCharacterMovement();
       shootRay();
+      updatePointer();
       renderer.render(scene, camera);
   });
 }
