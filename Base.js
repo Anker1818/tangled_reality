@@ -25,7 +25,7 @@ scene.add(character);
 
 // Posicionamos la cámara en el personaje
 character.add(camera);  // La cámara sigue al personaje
-camera.position.set(0, 3, 0);  // Ajusta la altura de la cámara
+camera.position.set(0, 1.6, 0);  // Ajusta la altura de la cámara
 
 
 // Texturas
@@ -126,7 +126,7 @@ scene.add(pointer);
 
 function updatePointer() {
   // Calcula la dirección del rayo
-  raycaster.ray.origin.copy(camera.position);
+  raycaster.ray.origin.copy(character.position);
   raycaster.ray.direction.set(0, 0, -1).applyQuaternion(camera.quaternion); // Dirección hacia adelante
 
   // Posiciona el puntero en la dirección del rayo
