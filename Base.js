@@ -25,7 +25,7 @@ scene.add(character);
 
 // Posicionamos la cámara en el personaje
 character.add(camera);  // La cámara sigue al personaje
-camera.position.set(0, 1.6, 0);  // Ajusta la altura de la cámara
+camera.position.set(0, 3, 0);  // Ajusta la altura de la cámara
 
 
 // Texturas
