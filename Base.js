@@ -50,6 +50,17 @@ const arbol1 = new THREE.Mesh(geometry1, materialArbol1);
 arbol1.position.set(10, 4, 10);
 scene.add(arbol1);
 
+const enemyGeometry = new THREE.BoxGeometry(2, 2, 2);
+const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+enemy.position.set(5, 1, -10); // Ubicar al enemigo
+scene.add(enemy);
+
+
+
+
+
+
 let moveForward = false;  
 let moveBackward = false;
 let gamepad1 = null;
@@ -106,9 +117,32 @@ function updateCharacterMovement() {
   character.position.y += verticalSpeed;
 }
 
+
+function shootRay() {
+  if (gamepad1) {
+    // Obtener el gatillo derecho (botón 5 en la mayoría de los controladores)
+    const rightTrigger = gamepad1.buttons[5].value;
+    
+    if (rightTrigger > 0.5) { // Si el gatillo está presionado
+      raycaster.ray.origin.copy(camera.position);
+      raycaster.ray.direction.set(0, 0, -1).applyQuaternion(camera.quaternion); // Rayo apuntando hacia adelante
+
+      // Comprobar colisiones con el enemigo
+      const intersects = raycaster.intersectObject(enemy);
+
+      if (intersects.length > 0) {
+        // Destruir el enemigo si el rayo lo toca
+        scene.remove(enemy);
+        console.log("Enemigo destruido");
+      }
+    }
+  }
+}
+
 function animate() {
   renderer.setAnimationLoop(() => {
       updateCharacterMovement();
+      shootRay();
       renderer.render(scene, camera);
   });
 }
