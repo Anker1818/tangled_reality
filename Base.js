@@ -121,7 +121,7 @@ function updateCharacterMovement() {
 function shootRay() {
   if (gamepad1) {
     // Obtener el gatillo derecho (botón 5 en la mayoría de los controladores)
-    const rightTrigger = gamepad1.buttons[5].value;
+    const rightTrigger = gamepad.buttons[5].value;
     
     if (rightTrigger > 0.5) { // Si el gatillo está presionado
       console.log("POlo")
