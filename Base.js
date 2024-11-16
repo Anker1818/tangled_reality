@@ -11,8 +11,7 @@ class Game {
     this.environment = new Environment(this.scene);
     this.character = new Character(this.scene, this.camera);
 
-
-    this.enemies =[];
+    this.enemies = [];
 
     this.createEnemies();
     this.initRenderer();
@@ -45,8 +44,14 @@ class Game {
   }
 
   update() {
+    // Actualiza la información del gamepad en cada fotograma
     if (this.gamepad) {
+      // Actualiza el gamepad para reflejar los cambios
+      this.gamepad = navigator.getGamepads()[this.gamepad.index];
+
+      // Pasamos el gamepad actualizado a la clase Character para que se mueva correctamente
       this.character.updateMovement(this.gamepad);
+      this.character.checkForEnemies(this.enemies, this.gamepad);
     }
   }
 
@@ -55,40 +60,6 @@ class Game {
       this.update();
       this.renderer.render(this.scene, this.camera);
     });
-  }
-}
-
-class Environment {
-  constructor(scene) {
-    this.scene = scene;
-    this.initEnvironment();
-  }
-
-  initEnvironment() {
-    // Cargar texturas
-    const texturePasto = new THREE.TextureLoader().load('Assets/Pasto1.jpg');
-    const textureArbol = new THREE.TextureLoader().load('Assets/Arbol1.jpg');
-
-    // Materiales
-    const materialPasto = new THREE.MeshBasicMaterial({ map: texturePasto });
-    const materialArbol = new THREE.MeshBasicMaterial({ map: textureArbol });
-
-    // Crear terreno
-    const groundGeometry = new THREE.BoxGeometry(50, 1, 50);
-    const ground = new THREE.Mesh(groundGeometry, materialPasto);
-    ground.position.set(0, -1, 0);
-    this.scene.add(ground);
-
-    // Crear árboles
-    const treeGeometry = new THREE.BoxGeometry(2, 10, 2);
-
-    const tree1 = new THREE.Mesh(treeGeometry, materialArbol);
-    tree1.position.set(5, 4, 5);
-    this.scene.add(tree1);
-
-    const tree2 = new THREE.Mesh(treeGeometry, materialArbol);
-    tree2.position.set(10, 4, 10);
-    this.scene.add(tree2);
   }
 }
 
@@ -104,10 +75,13 @@ class Character {
     scene.add(this.character);
     this.character.add(camera);
     camera.position.set(0, 1.6, 0);
+
+    // Inicializa el raycaster para la detección de enemigos
+    this.raycaster = new THREE.Raycaster();
   }
 
   updateMovement(gamepad) {
-    const leftStickY = gamepad.axes[1];
+    const leftStickY = gamepad.axes[1]; // Eje Y del stick izquierdo
 
     if (leftStickY > 0.1) {
       this.moveForward = false;
@@ -140,8 +114,6 @@ class Character {
     this.character.position.y += this.verticalSpeed;
   }
 
-
-
   checkForEnemies(enemies, gamepad) {
     // Detectar el gatillo derecho para disparar
     const rightTrigger = gamepad.buttons[5].value; // PS4 right trigger value
@@ -162,10 +134,6 @@ class Character {
   }
 }
 
-
-
-
-
 class Enemy {
   constructor(scene, position) {
     this.scene = scene;
@@ -183,8 +151,6 @@ class Enemy {
     console.log("Enemigo destruido");
   }
 }
-
-
 
 // Inicializar y ejecutar el juego
 const game = new Game();
