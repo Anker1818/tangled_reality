@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -40,23 +40,44 @@ const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 cube.position.y = -10
 
+// Crear GLTFLoader
+const loader = new GLTFLoader();
+
+// Cargar el modelo GLB
+loader.load(
+  'cabana.glb', // Ruta al modelo
+  (gltf) => {
+    // El modelo está disponible en gltf.scene
+    const model = gltf.scene;
+    model.position.set(0, 5, -180); // Ajustar posición
+    model.scale.set(5, 7, 5); // Ajustar escala
+    scene.add(model); // Agregar modelo a la escena
+  },
+  (xhr) => {
+    console.log(`Modelo cargado al ${(xhr.loaded / xhr.total) * 100}%`); // Progreso opcional
+  },
+  (error) => {
+    console.error('Error al cargar el modelo:', error);
+  }
+);
+
 const textureLoader = new THREE.TextureLoader();
 
-// Cargar la textura del sprite
-textureLoader.load('Texturas terror/pngwing.com (1).png', (texture) => {
-  // Crear el material del sprite
-  const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+// // Cargar la textura del sprite
+// textureLoader.load('Texturas terror/pngwing.com (1).png', (texture) => {
+//   // Crear el material del sprite
+//   const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
 
-  // Crear el sprite usando el material
-  const sprite = new THREE.Sprite(spriteMaterial);
+//   // Crear el sprite usando el material
+//   const sprite = new THREE.Sprite(spriteMaterial);
 
-  // Ajustar la posición o escala del sprite
-  sprite.position.set(-30, 30, -70); // X, Y, Z
-  sprite.scale.set(150, 150, 1); // Ancho, Alto, Profundidad (profundidad generalmente no importa en sprites)
+//   // Ajustar la posición o escala del sprite
+//   sprite.position.set(-30, 30, -70); // X, Y, Z
+//   sprite.scale.set(150, 150, 1); // Ancho, Alto, Profundidad (profundidad generalmente no importa en sprites)
 
-  // Añadir el sprite a la escena
-  scene.add(sprite);
-});
+//   // Añadir el sprite a la escena
+//   scene.add(sprite);
+// });
 
 // Crear un cargador de texturas
 //const textureLoader = new THREE.TextureLoader();
@@ -85,13 +106,13 @@ textureLoader.load('Texturas terror/spritearbolpng.png', (texture) => {
   crearSprite(30, 33, 30);
 
   crearSprite(-120, 33, -105);
-  crearSprite(-80, 33, -90);
-  crearSprite(-40, 33, -70);
-  crearSprite(-40, 33, -30);
+  //crearSprite(-80, 33, -90);
+  //crearSprite(-40, 33, -70);
+  //crearSprite(-40, 33, -30);
   crearSprite(-100, 33, -20);
   crearSprite(100, 33, -20);
-  crearSprite(50, 33, -120);
-  crearSprite(30, 33, -30);
+  //crearSprite(50, 33, -120);
+  //crearSprite(30, 33, -30);
 });
 
 textureLoader.load('Texturas terror/arbolterrorok.png', (texture) => {
@@ -108,18 +129,18 @@ textureLoader.load('Texturas terror/arbolterrorok.png', (texture) => {
   
     // Generar varios sprites en diferentes posiciones
     crearSprite(-100, 33, -10);
-    crearSprite( 28, 33, -5);
+    //crearSprite( 28, -33, -5);
     crearSprite(122, 33, 120);
-    crearSprite(-15, 33, -2);
+    //crearSprite(-15, 33, -2);
     crearSprite(0, 33, 120);
     crearSprite(-80, 33, 120);
     crearSprite(100, 33, 80);
     crearSprite(-100, 33, -100);
-    crearSprite( 28, 33, -50);
-    crearSprite(122, 33, -120);
-    crearSprite(-15, 33, -20);
-    crearSprite(0, 33, -120);
-    crearSprite(-80, 33, -120);
+    //crearSprite( 28, 33, -50);
+    //crearSprite(122, 33, -120);
+    //crearSprite(-15, -33, -20);
+    //crearSprite(0, 33, -120);
+    //crearSprite(-80, 33, -120);
     crearSprite(100, 33, -80);
   });
 
@@ -196,7 +217,7 @@ textureLoader.load('Texturas terror/arbolterrorok.png', (texture) => {
     crearSprite(-100, 0, -50);
   });
 
-camera.position.z = 100;
+camera.position.z = 300;
 
 function animate() {
 
