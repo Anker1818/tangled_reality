@@ -34,11 +34,13 @@ const light2 = new THREE.PointLight(0xffffff, 10000, 10000);
 light2.position.set(-20, 30, 10);
 scene.add( light2);
 
-const geometry = new THREE.BoxGeometry( 300, 0.3, 300 ); 
-const material = new THREE.MeshBasicMaterial( {color: 0xffffff} ); 
+const geometry = new THREE.BoxGeometry( 300, 7, 300 ); 
+const texture = new THREE.TextureLoader().load('Texturas terror/piso.jpg');
+const textureN = new THREE.TextureLoader().load('Texturas terror/pisonormal.png');
+const material = new THREE.MeshPhongMaterial( {map: texture, normalMap: textureN} ); 
 const cube = new THREE.Mesh( geometry, material ); 
 scene.add( cube );
-cube.position.y = -10
+cube.position.y = -14
 
 // Crear GLTFLoader
 const loader = new GLTFLoader();
@@ -83,7 +85,7 @@ const textureLoader = new THREE.TextureLoader();
 //const textureLoader = new THREE.TextureLoader();
 
 // Cargar la textura del sprite
-textureLoader.load('Texturas terror/spritearbolpng.png', (texture) => {
+textureLoader.load('Texturas terror/spritearbolpngcopia.png', (texture) => {
   // Crear el material del sprite (puede ser reutilizado)
   const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
 
@@ -115,7 +117,7 @@ textureLoader.load('Texturas terror/spritearbolpng.png', (texture) => {
   //crearSprite(30, 33, -30);
 });
 
-textureLoader.load('Texturas terror/arbolterrorok.png', (texture) => {
+textureLoader.load('Texturas terror/arbolterrorokcopia.png', (texture) => {
     // Crear el material del sprite (puede ser reutilizado)
     const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
   
@@ -144,7 +146,7 @@ textureLoader.load('Texturas terror/arbolterrorok.png', (texture) => {
     crearSprite(100, 33, -80);
   });
 
-  textureLoader.load('Texturas terror/pasto.png', (texture) => {
+  textureLoader.load('Texturas terror/pastook.png', (texture) => {
     // Crear el material del sprite (puede ser reutilizado)
     const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
   
@@ -157,34 +159,34 @@ textureLoader.load('Texturas terror/arbolterrorok.png', (texture) => {
     }
   
     // Generar varios sprites en diferentes posiciones
-    crearSprite(20, 0, -30);
-    crearSprite(10, 0, -5);
-    crearSprite(14, 0, -25);
-    crearSprite(21, 0, 2);
-    crearSprite(-120, 0, -30);
-    crearSprite(-100, 0, -5);
-    crearSprite(14, 0, -25);
-    crearSprite(21, 0, 2);
-    crearSprite(21, 0, 140);
-    crearSprite(-120, 0, 120);
-    crearSprite(-100, 0, 100);
-    crearSprite(14, 0, 120);
+    crearSprite(20, -5, -30);
+    crearSprite(10, -5, -5);
+    crearSprite(14, -5, -25);
+    crearSprite(21, -5, 2);
+    crearSprite(-120, -5, -30);
+    crearSprite(-100, -5, -5);
+    crearSprite(14, -5, -25);
+    crearSprite(21, -5, 2);
+    crearSprite(21, -5, 140);
+    crearSprite(-120, -5, 120);
+    crearSprite(-100, -5, 100);
+    crearSprite(14, -5, 120);
     crearSprite(21, 0, 100);
-    crearSprite(-121, 0, 140);
+    crearSprite(-121, -5, 140);
     crearSprite(0, 0, 120);
     crearSprite(-80, 0, 120);
     crearSprite(-50, 0, -50);
-    crearSprite(-45, 0, 90);
+    crearSprite(-45, -5, 90);
     crearSprite(-80, 0, 90);
-    crearSprite(80, 0, 120);
-    crearSprite(120, 0, 120);
+    crearSprite(80, -5, 120);
+    crearSprite(120, 5, 120);
     crearSprite(120, 0, 60);
     crearSprite(100, 0, 60);
     crearSprite(50, 0, 60);
-    crearSprite(50, 0, 20);
+    crearSprite(50, 5, 20);
     crearSprite(10, 0, 20);
     crearSprite(-120, 0, 20);
-    crearSprite(-120, 0, 80);
+    crearSprite(-120, 5, 80);
     crearSprite(-100, 0, 50);
     crearSprite(20, 0, -30);
     crearSprite(10, 0, -5);
@@ -206,15 +208,15 @@ textureLoader.load('Texturas terror/arbolterrorok.png', (texture) => {
     crearSprite(-45, 0, -90);
     crearSprite(-80, 0, -90);
     crearSprite(80, 0, -120);
-    crearSprite(120, 0, -120);
-    crearSprite(120, 0, -60);
+    crearSprite(120, 5, -120);
+    crearSprite(120, 5, -60);
     crearSprite(100, 0, -60);
     crearSprite(50, 0, -60);
     crearSprite(50, 0, -20);
     crearSprite(10, 0, -20);
-    crearSprite(-120, 0, -20);
-    crearSprite(-120, 0, -80);
-    crearSprite(-100, 0, -50);
+    crearSprite(-120, 5, -20);
+    crearSprite(-120, 5, -80);
+    crearSprite(-100, 5, -50);
   });
 
 camera.position.z = 300;
