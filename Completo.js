@@ -131,9 +131,9 @@ class Game {
     cargarSprites(rutaTextura, posiciones) {
         this.textureLoader.load(rutaTextura, (texture) => {
             const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
-            posiciones.forEach(([x, y, z]) => {
+            posiciones.forEach(([x, z]) => {
                 const sprite = new THREE.Sprite(spriteMaterial);
-                sprite.position.set(x, y, z);
+                sprite.position.set(x, 0, z);
                 sprite.scale.set(50, 50, 1); // Tamaño del sprite
                 this.scene.add(sprite);
                 
@@ -159,7 +159,7 @@ class Personaje {
         this.verticalSpeed = 0;
 
         // Movimiento
-        this.speed = 0.1;
+        this.speed = 0.5;
         this.moveForward = false;
         this.moveBackward = false;
 
