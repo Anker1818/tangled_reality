@@ -152,9 +152,9 @@ function shootRay() {
 
       gamepad1.vibrationActuator.playEffect("dual-rumble", {
         startDelay: 0,
-        duration: 200,
+        duration: 100,
         weakMagnitude: 1.0,
-        strongMagnitude: 1.0,
+        strongMagnitude: 1,
       });
 
       // Comprobar colisiones con el enemigo
