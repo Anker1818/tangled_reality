@@ -192,7 +192,7 @@ class Personaje {
 
 
         // Linterna (luz puntual)
-        this.linterna = new THREE.PointLight(0xFFFFFF, 900, 50);  // Luz blanca, intensidad 1, distancia 100
+        this.linterna = new THREE.SpotLight(0xFFFFFF, 900, 50, Math.PI / 4, 0.1, 2);
         this.linterna.position.set(0, 1.6, 0);  // Posición inicial de la linterna (mismo nivel que la cámara)
         this.linterna.decay = 2; 
         this.character.add(this.linterna); 
@@ -241,7 +241,10 @@ class Personaje {
             this.character.position.y = -1;
         }
 
+        
+
         this.character.position.y += this.verticalSpeed;
+        
     }
 
     disparar(raycaster, enemy, camera) {
