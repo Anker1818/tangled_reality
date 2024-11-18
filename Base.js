@@ -150,6 +150,13 @@ function shootRay() {
       raycaster.ray.origin.copy(camera.position);
       raycaster.ray.direction.set(0, 0, -1).applyQuaternion(camera.quaternion); // Rayo apuntando hacia adelante
 
+      gamepad.vibrationActuator.playEffect("dual-rumble", {
+        startDelay: 0,
+        duration: 200,
+        weakMagnitude: 1.0,
+        strongMagnitude: 1.0,
+      });
+
       // Comprobar colisiones con el enemigo
       const intersects = raycaster.intersectObject(enemy);
 
@@ -159,13 +166,7 @@ function shootRay() {
         console.log("Enemigo destruido");
       }
 
-      if (gamepad1.vibrationActuator && gamepad1.vibrationActuator.type === "vibration") {
-        gamepad1.vibrationActuator.playEffect("dual-rumble", {
-          duration: 200, // Duración de la vibración en ms
-          strongMagnitude: 0.5, // Intensidad de la vibración fuerte (0.0 a 1.0)
-          weakMagnitude: 0.5  // Intensidad de la vibración débil (0.0 a 1.0)
-        }).catch((error) => console.error("Error al activar la vibración:", error));
-      }
+
     }
   }
 }
