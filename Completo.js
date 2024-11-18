@@ -162,12 +162,6 @@ class Game {
                     // Mantener solo la rotación en el eje X (horizontal)
                     direction.y = 0; // Elimina la componente vertical
                     direction.normalize();
-                    
-                    // Calcular el ángulo en el plano XZ
-                    const angle = Math.atan2(direction.x, direction.z);
-                    
-                    // Aplicar solo la rotación horizontal
-                    this.material.rotation = angle;
                 };
 
                 this.scene.add(sprite);
