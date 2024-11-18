@@ -145,7 +145,7 @@ class Game {
                     
                     // Modificar la dirección del sprite para que no rote en Y
                     sprite.lookAt(new THREE.Vector3(
-                        sprite.position.x + cameraDirection.x,
+                        sprite.position.x,
                         sprite.position.y,  // Mantener la posición Y constante
                         sprite.position.z 
                     ));
