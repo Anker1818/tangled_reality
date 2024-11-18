@@ -72,19 +72,19 @@ class Game {
     
             // Sprites (árboles y otros objetos)
             this.ambiente.cargarSprites('Texturas terror/spritearbolpngcopia.png', [
-                [-120, 0, 105],
-                [-80, 0, 90],
-                [-40, 0, 70],
-                [100, 0, -20],
-                [50, 0, 120],
+                { x: -120, y: 0, z: 105, escalaX: 50, escalaY: 100 },  // Árbol 1
+                { x: -80, y: 0, z: 90, escalaX: 80, escalaY: 80 },     // Árbol 2
+                { x: -40, y: 0, z: 70, escalaX: 60, escalaY: 60 },     // Árbol 3
+                { x: 100, y: 0, z: -20, escalaX: 90, escalaY: 90 },    // Árbol 4
+                { x: 50, y: 0, z: 120, escalaX: 70, escalaY: 70 }      // Árbol 5
             ]);
-
+            
             this.ambiente.cargarSprites('Texturas terror/pastook.png', [
-                [120,0, 105],
-                [80,0, 90],
-                [40,0, 70],
-                [110,0, -20],
-                [57,0, 120],
+                { x: 120, y: 0, z: 105, escalaX: 60, escalaY: 60 },    // Pasto 1
+                { x: 80, y: 0, z: 90, escalaX: 80, escalaY: 80 },      // Pasto 2
+                { x: 40, y: 0, z: 70, escalaX: 50, escalaY: 50 },      // Pasto 3
+                { x: 110, y: 0, z: -20, escalaX: 100, escalaY: 100 },  // Pasto 4
+                { x: 57, y: 0, z: 120, escalaX: 90, escalaY: 90 }      // Pasto 5
             ]);
         }
         animate() {
@@ -92,6 +92,13 @@ class Game {
                 this.personaje.actualizarControles();
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
+
+                this.ambiente.sprites.forEach(sprite => {
+                    if (sprite.updateRotation) {
+                        sprite.updateRotation();  // Llamar a la función para actualizar la rotación del sprite
+                    }
+                });
+                
                 this.renderer.render(this.scene, this.camera);
             });
 
@@ -136,14 +143,16 @@ class Game {
         );
     }
 
-    cargarSprites(rutaTextura, posiciones) {
+    cargarSprites(rutaTextura, configuraciones) {
+        // Cargar la textura
         this.textureLoader.load(rutaTextura, (texture) => {
             const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
-            
-            posiciones.forEach(([x,y, z]) => {
+    
+            configuraciones.forEach(({x, y, z, escalaX = 70, escalaY = 70}) => {
+                // Crear un sprite con el material
                 const sprite = new THREE.Sprite(spriteMaterial);
                 sprite.position.set(x, y, z);  // Posición del sprite
-                sprite.scale.set(70, 70, 1);     // Tamaño del sprite
+                sprite.scale.set(escalaX, escalaY, 1);  // Tamaño del sprite, por defecto es 70x70
     
                 // Mantener la rotación en el eje Y constante
                 const updateRotation = () => {
@@ -159,9 +168,10 @@ class Game {
                     ));
                 };
     
+                // Añadir el sprite a la escena
                 this.scene.add(sprite);
     
-                // Actualizar la rotación del sprite en cada frame
+                // Asignar la función de actualización de la rotación
                 sprite.updateRotation = updateRotation;
             });
         });
