@@ -135,22 +135,9 @@ class Game {
                 const sprite = new THREE.Sprite(spriteMaterial);
                 sprite.position.set(x, y, z);
                 sprite.scale.set(50, 50, 1); // Tamaño del sprite
-
-
-
-
-                const originalRotationY = sprite.rotation.y;
-
-                // Actualizamos la rotación en cada frame solo en los ejes X y Z
-                const updateRotation = () => {
-                    sprite.rotation.x += 0.01; // Ejemplo de rotación en X
-                    sprite.rotation.z += 0.01; // Ejemplo de rotación en Z
-                    sprite.rotation.y = originalRotationY; // Mantener la rotación en Y constante
-                };
+                this.scene.add(sprite);
+                
             });
-
-            this.scene.add(sprite);
-            sprite.updateRotation = updateRotation;
         });
     }
 }
@@ -178,13 +165,6 @@ class Personaje {
 
         // Controlador
         this.gamepad = null;
-
-        // Inicializar el personaje con una geometría básica (puedes reemplazarlo con un modelo)
-        const bodyGeometry = new THREE.CylinderGeometry(0.3, 0.3, 1.6, 16);
-        const bodyMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-        body.position.y = 0.8; // Altura del cuerpo
-        this.character.add(body);
     }
 
     actualizarControles() {
