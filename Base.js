@@ -158,6 +158,14 @@ function shootRay() {
         scene.remove(enemy);
         console.log("Enemigo destruido");
       }
+
+      if (gamepad1.vibrationActuator && gamepad1.vibrationActuator.type === "vibration") {
+        gamepad1.vibrationActuator.playEffect("dual-rumble", {
+          duration: 200, // Duración de la vibración en ms
+          strongMagnitude: 0.5, // Intensidad de la vibración fuerte (0.0 a 1.0)
+          weakMagnitude: 0.5  // Intensidad de la vibración débil (0.0 a 1.0)
+        }).catch((error) => console.error("Error al activar la vibración:", error));
+      }
     }
   }
 }
