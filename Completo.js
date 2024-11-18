@@ -104,6 +104,7 @@ class Game {
         this.scene = scene;
         this.textureLoader = new THREE.TextureLoader();
         this.loaderGLTF = new GLTFLoader();
+        this.sprites = [];
     }
 
     agregarObjetos({ geometria, textura, materialOptions = {}, posicion = [0, 0, 0], rotacion = [0, 0, 0] }) {
@@ -146,28 +147,6 @@ class Game {
                 const sprite = new THREE.Sprite(spriteMaterial);
                 sprite.position.set(x, y, z);  // Posición del sprite
                 sprite.scale.set(escalaX, escalaY, 1);  // Tamaño del sprite, por defecto es 70x70
-    
-                // Función para actualizar la rotación del sprite
-                const updateRotation = () => {
-                    // Obtener la dirección de la cámara
-                    const cameraDirection = new THREE.Vector3();
-                    this.camera.getWorldDirection(cameraDirection);
-    
-                    // Aquí sólo aplicamos la rotación en el eje Y, manteniendo la posición Y constante
-                    sprite.lookAt(new THREE.Vector3(
-                        sprite.position.x + cameraDirection.x,
-                        sprite.position.y,  // Mantener la posición Y constante
-                        sprite.position.z + cameraDirection.z
-                    ));
-    
-                    // Esto asegura que el sprite no se incline cuando mueves la cabeza hacia arriba o hacia abajo
-                    sprite.rotation.x = 0;  // Mantener la rotación en el eje X constante
-                };
-    
-                // Asignar la función de actualización de la rotación al sprite
-                sprite.updateRotation = updateRotation;
-    
-                // Añadir el sprite a la escena
                 this.scene.add(sprite);
             });
         });
