@@ -134,7 +134,7 @@ class Game {
             
             posiciones.forEach(([x, z]) => {
                 const sprite = new THREE.Sprite(spriteMaterial);
-                sprite.position.set(x, 0, z);  // Posición del sprite
+                sprite.position.set(x, 35, z);  // Posición del sprite
                 sprite.scale.set(70, 70, 1);     // Tamaño del sprite
     
                 // Mantener la rotación en el eje Y constante
@@ -147,7 +147,7 @@ class Game {
                     sprite.lookAt(new THREE.Vector3(
                         sprite.position.x + cameraDirection.x,
                         sprite.position.y,  // Mantener la posición Y constante
-                        sprite.position.z + cameraDirection.z
+                        sprite.position.z 
                     ));
                 };
     
