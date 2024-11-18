@@ -26,7 +26,7 @@ class Game {
 
         // Crear luces para la escena
 
-        const ambientLight = new THREE.AmbientLight(0x404040); // Luz suave
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.2); // Luz suave
         this.scene.add(ambientLight);
 
         const pointLight = new THREE.PointLight(0xffffff, 70, 10000);
