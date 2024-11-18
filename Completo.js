@@ -84,6 +84,9 @@ class Game {
                 this.personaje.actualizarControles();
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
+                this.ambiente.sprites.forEach(sprite => {
+                    sprite.updateRotation();
+                });
                 this.renderer.render(this.scene, this.camera);
             });
 
@@ -145,9 +148,9 @@ class Game {
                     
                     // Modificar la dirección del sprite para que no rote en Y
                     sprite.lookAt(new THREE.Vector3(
-                        sprite.position.x,
+                        sprite.position.x + cameraDirection.x,
                         sprite.position.y,  // Mantener la posición Y constante
-                        sprite.position.z 
+                        sprite.position.z + cameraDirection.z
                     ));
                 };
     
