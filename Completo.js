@@ -168,9 +168,9 @@ class Game {
                     
                     // Calcular la dirección hacia donde debe mirar el sprite
                     const lookAtPosition = new THREE.Vector3(
-                        cameraPosition.x,
-                        spritePosition.y, // Mantener la misma altura
-                        cameraPosition.z
+                        position.x + camera.position.x,
+                        position.y,
+                        position.z + camera.position.z
                     );
                     
                     // Hacer que el sprite mire hacia la cámara solo en el eje Y
