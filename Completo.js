@@ -67,7 +67,7 @@ class Game {
             this.ambiente.cargarModelo({
                 ruta: 'cabana.glb',
                 posicion: [0, 5, -180],
-                escala: [5, 7, 5],
+                escala: [5, 5, 5],
             });
     
             // Sprites (árboles y otros objetos)
