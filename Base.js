@@ -164,7 +164,6 @@ function shootRay() {
         weakMagnitude: 1.0,
         strongMagnitude: 1,
       });
-
       */
 
       // Comprobar colisiones con el enemigo
