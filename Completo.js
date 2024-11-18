@@ -66,7 +66,7 @@ class Game {
             // Modelo GLTF (cabaña)
             this.ambiente.cargarModelo({
                 ruta: 'cabana.glb',
-                posicion: [0, 5, -180],
+                posicion: [0, 0, -180],
                 escala: [5, 5, 5],
             });
     
