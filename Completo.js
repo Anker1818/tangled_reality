@@ -131,15 +131,34 @@ class Game {
     cargarSprites(rutaTextura, posiciones) {
         this.textureLoader.load(rutaTextura, (texture) => {
             const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            
             posiciones.forEach(([x, z]) => {
                 const sprite = new THREE.Sprite(spriteMaterial);
-                sprite.position.set(x, 0, z);
-                sprite.scale.set(50, 50, 1); // Tamaño del sprite
+                sprite.position.set(x, 35, z);  // Posición del sprite
+                sprite.scale.set(70, 70, 1);     // Tamaño del sprite
+    
+                // Mantener la rotación en el eje Y constante
+                const updateRotation = () => {
+                    // Obtener la dirección de la cámara
+                    const cameraDirection = new THREE.Vector3();
+                    this.camera.getWorldDirection(cameraDirection);
+                    
+                    // Modificar la dirección del sprite para que no rote en Y
+                    sprite.lookAt(new THREE.Vector3(
+                        sprite.position.x + cameraDirection.x,
+                        sprite.position.y,  // Mantener la posición Y constante
+                        sprite.position.z + cameraDirection.z
+                    ));
+                };
+    
                 this.scene.add(sprite);
-                
+    
+                // Actualizar la rotación del sprite en cada frame
+                sprite.updateRotation = updateRotation;
             });
         });
     }
+    
 }
 
 class Personaje {
