@@ -92,7 +92,6 @@ class Game {
                 this.personaje.actualizarControles();
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
-                this.personaje.toggleLinterna();
 
                 this.renderer.render(this.scene, this.camera);
             });
@@ -115,7 +114,7 @@ class Game {
             texturaCargada = new THREE.TextureLoader().load(textura);
         }
 
-        const material = new THREE.MeshBasicMaterial({ ...materialOptions, map: texturaCargada });
+        const material = new THREE.MeshStandardMaterial({ ...materialOptions, map: texturaCargada });
         const objeto = new THREE.Mesh(geometria, material);
 
         objeto.position.set(...posicion);
@@ -191,11 +190,12 @@ class Personaje {
         this.character.add(body);
 
 
-                // Linterna (luz puntual)
-                this.linterna = new THREE.PointLight(0xFFFFFF, 1, 100);  // Luz blanca, intensidad 1, distancia 100
-                this.linterna.position.set(0, 1.6, 0);  // Posición inicial de la linterna (mismo nivel que la cámara)
-                this.character.add(this.linterna);  // Agregar la linterna al personaje
-                this.linternaEncendida = false; 
+        // Linterna (luz puntual)
+        this.linterna = new THREE.PointLight(0xFFFFFF, 1000, 60);  // Luz blanca, intensidad 1, distancia 100
+        this.linterna.position.set(0, 1.6, 0);  // Posición inicial de la linterna (mismo nivel que la cámara)
+        this.character.add(this.linterna); 
+        this.linternaEncendida = false; 
+        this.lastButtonState = false;
     }
 
     actualizarControles() {
@@ -207,10 +207,16 @@ class Personaje {
             this.moveForward = leftStickY < -0.1;
             this.moveBackward = leftStickY > 0.1;
 
-              // Si el botón de encender/apagar la linterna es presionado (por ejemplo, botón 6)
-              if (this.gamepad.buttons[0].value > 0.5) {
-                this.toggleLinterna();  // Alternar estado de la linterna
-            }
+    // Si el botón de encender/apagar la linterna es presionado (por ejemplo, botón 0)
+    if (this.gamepad.buttons[0].value > 0.5 && !this.lastButtonState) {
+        this.toggleLinterna();  // Alternar estado de la linterna
+        this.lastButtonState = true;  // Actualizar el estado del botón
+    }
+
+    // Si el botón ya no está presionado, reseteamos el estado
+    if (this.gamepad.buttons[0].value <= 0.5 && this.lastButtonState) {
+        this.lastButtonState = false;  // Restablecer el estado del botón
+    }
         }
     }
 
@@ -261,8 +267,9 @@ class Personaje {
     }
 
     toggleLinterna() {
+        console.log("Linterna cambiada");
         this.linternaEncendida = !this.linternaEncendida;
-        this.linterna.visible = this.linternaEncendida;  // Activar o desactivar la linterna
+        this.linterna.visible = this.linternaEncendida;   // Activar o desactivar la linterna
     }
 }
 
