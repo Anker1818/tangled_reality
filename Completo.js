@@ -92,6 +92,7 @@ class Game {
                 this.personaje.actualizarControles();
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
+                this.personaje.toggleLinterna();
 
                 this.renderer.render(this.scene, this.camera);
             });
