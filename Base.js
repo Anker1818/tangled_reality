@@ -150,7 +150,7 @@ function shootRay() {
       raycaster.ray.origin.copy(camera.position);
       raycaster.ray.direction.set(0, 0, -1).applyQuaternion(camera.quaternion); // Rayo apuntando hacia adelante
 
-      gamepad.vibrationActuator.playEffect("dual-rumble", {
+      gamepad1.vibrationActuator.playEffect("dual-rumble", {
         startDelay: 0,
         duration: 200,
         weakMagnitude: 1.0,
