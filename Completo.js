@@ -134,9 +134,23 @@ class Game {
             posiciones.forEach(([x, y, z]) => {
                 const sprite = new THREE.Sprite(spriteMaterial);
                 sprite.position.set(x, y, z);
-                sprite.scale.set(100, 100, 1); // Tamaño del sprite
-                this.scene.add(sprite);
+                sprite.scale.set(50, 50, 1); // Tamaño del sprite
+
+
+
+
+                const originalRotationY = sprite.rotation.y;
+
+                // Actualizamos la rotación en cada frame solo en los ejes X y Z
+                const updateRotation = () => {
+                    sprite.rotation.x += 0.01; // Ejemplo de rotación en X
+                    sprite.rotation.z += 0.01; // Ejemplo de rotación en Z
+                    sprite.rotation.y = originalRotationY; // Mantener la rotación en Y constante
+                };
             });
+
+            this.scene.add(sprite);
+            sprite.updateRotation = updateRotation;
         });
     }
 }
