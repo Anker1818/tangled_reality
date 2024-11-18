@@ -191,7 +191,7 @@ class Personaje {
 
 
         // Linterna (luz puntual)
-        this.linterna = new THREE.PointLight(0xFFFFFF, 1000, 60);  // Luz blanca, intensidad 1, distancia 100
+        this.linterna = new THREE.PointLight(0xFFFFFF, 800, 90);  // Luz blanca, intensidad 1, distancia 100
         this.linterna.position.set(0, 1.6, 0);  // Posición inicial de la linterna (mismo nivel que la cámara)
         this.character.add(this.linterna); 
         this.linternaEncendida = false; 
