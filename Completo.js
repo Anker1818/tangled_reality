@@ -92,13 +92,6 @@ class Game {
                 this.personaje.actualizarControles();
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
-
-                this.ambiente.sprites.forEach(sprite => {
-                    if (sprite.updateRotation) {
-                        sprite.updateRotation();  // Llamar a la función para actualizar la rotación del sprite
-                    }
-                });
-                
                 this.renderer.render(this.scene, this.camera);
             });
 
@@ -153,26 +146,10 @@ class Game {
                 const sprite = new THREE.Sprite(spriteMaterial);
                 sprite.position.set(x, y, z);  // Posición del sprite
                 sprite.scale.set(escalaX, escalaY, 1);  // Tamaño del sprite, por defecto es 70x70
-    
-                // Mantener la rotación en el eje Y constante
-                const updateRotation = () => {
-                    // Obtener la dirección de la cámara
-                    const cameraDirection = new THREE.Vector3();
-                    this.camera.getWorldDirection(cameraDirection);
-                    
-                    // Modificar la dirección del sprite para que no rote en Y
-                    sprite.lookAt(new THREE.Vector3(
-                        sprite.position.x + cameraDirection.x,
-                        sprite.position.y,  // Mantener la posición Y constante
-                        sprite.position.z + cameraDirection.z
-                    ));
-                };
-    
                 // Añadir el sprite a la escena
                 this.scene.add(sprite);
     
-                // Asignar la función de actualización de la rotación
-                sprite.updateRotation = updateRotation;
+                
             });
         });
     }
