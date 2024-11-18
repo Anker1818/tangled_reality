@@ -9,7 +9,7 @@ class Game {
         this.camera.position.set(0, 5, 10); // Posición de la cámara
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.xr.enabled = true;
+        //this.renderer.xr.enabled = true;
 
         // Agregar el canvas al documento
         document.body.appendChild(this.renderer.domElement);

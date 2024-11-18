@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { VRButton } from 'three/addons/webxr/VRButton.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -11,6 +12,8 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setAnimationLoop( animate );
 document.body.appendChild( renderer.domElement );
+document.body.appendChild(VRButton.createButton(renderer));
+
 
 // const path = 'objetos/cube/';
 // const format = '.jpg';
