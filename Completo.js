@@ -132,9 +132,9 @@ class Game {
         this.textureLoader.load(rutaTextura, (texture) => {
             const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
             
-            posiciones.forEach(([x, z]) => {
+            posiciones.forEach(([x,y, z]) => {
                 const sprite = new THREE.Sprite(spriteMaterial);
-                sprite.position.set(x, 10, z);  // Posición del sprite
+                sprite.position.set(x, y, z);  // Posición del sprite
                 sprite.scale.set(70, 70, 1);     // Tamaño del sprite
     
                 // Mantener la rotación en el eje Y constante
