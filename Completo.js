@@ -92,6 +92,13 @@ class Game {
                 this.personaje.actualizarControles();
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
+                if (this.ambiente.sprites.length > 0) {
+                    this.ambiente.sprites.forEach(sprite => {
+                        if (sprite.onBeforeRender) {
+                            sprite.onBeforeRender(this.renderer, this.scene, this.camera);
+                        }
+                    });
+                }
                 this.renderer.render(this.scene, this.camera);
             });
 
@@ -138,16 +145,40 @@ class Game {
     }
 
     cargarSprites(rutaTextura, configuraciones) {
-        // Cargar la textura
         this.textureLoader.load(rutaTextura, (texture) => {
-            const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            const spriteMaterial = new THREE.SpriteMaterial({ 
+                map: texture,
+                sizeAttenuation: true
+            });
     
             configuraciones.forEach(({ x, y, z, escalaX = 70, escalaY = 70 }) => {
-                // Crear un sprite con el material
                 const sprite = new THREE.Sprite(spriteMaterial);
-                sprite.position.set(x, y, z);  // Posición del sprite
-                sprite.scale.set(escalaX, escalaY, 1);  // Tamaño del sprite, por defecto es 70x70
+                sprite.position.set(x, y, z);
+                sprite.scale.set(escalaX, escalaY, 1);
+                
+                // Mantener el sprite vertical
+                sprite.onBeforeRender = function(renderer, scene, camera) {
+                    // Obtener la posición mundial del sprite
+                    const spritePosition = new THREE.Vector3();
+                    this.getWorldPosition(spritePosition);
+                    
+                    // Obtener la posición de la cámara
+                    const cameraPosition = new THREE.Vector3();
+                    camera.getWorldPosition(cameraPosition);
+                    
+                    // Calcular la dirección hacia donde debe mirar el sprite
+                    const lookAtPosition = new THREE.Vector3(
+                        cameraPosition.x,
+                        spritePosition.y, // Mantener la misma altura
+                        cameraPosition.z
+                    );
+                    
+                    // Hacer que el sprite mire hacia la cámara solo en el eje Y
+                    this.lookAt(lookAtPosition);
+                };
+                
                 this.scene.add(sprite);
+                this.sprites.push(sprite);
             });
         });
     }
