@@ -192,7 +192,7 @@ class Personaje {
 
 
         // Linterna (luz puntual)
-        this.linterna = new THREE.SpotLight(0xFFFFFF, 900, 50, Math.PI / 4, 0.1, 2);
+        this.linterna = new THREE.SpotLight(0xFFFFFF, 900, 50, Math.PI / 5, 0.6, 2);
         this.linterna.position.set(0, 1.6, 0);  // Posición inicial de la linterna (mismo nivel que la cámara)
         this.linterna.decay = 2; 
         this.linternaTarget = new THREE.Object3D();
@@ -201,7 +201,7 @@ class Personaje {
         this.linterna.target = this.linternaTarget;
         
         this.character.add(this.linterna); 
-        this.scene.add(this.linternaTarget); // Importante: añadir el target a la escena
+        this.scene.add(this.linternaTarget); 
         
         this.linternaEncendida = false; 
         this.lastButtonState = false;
