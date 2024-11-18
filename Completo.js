@@ -79,13 +79,6 @@ class Game {
                 [50, 0, 120],
             ]);
 
-            this.ambiente.cargarSprites('Texturas terror/pastook.png', [
-                [120,0, 105],
-                [80,0, 90],
-                [40,0, 70],
-                [110,0, -20],
-                [57,0, 120],
-            ]);
         }
         animate() {
             this.renderer.setAnimationLoop(() => {
