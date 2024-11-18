@@ -165,6 +165,14 @@ class Personaje {
 
         // Controlador
         this.gamepad = null;
+
+        // Inicializar el personaje con una geometría básica (puedes reemplazarlo con un modelo)
+        const bodyGeometry = new THREE.CylinderGeometry(0.3, 0.3, 1.6, 16);
+        const bodyMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.y = 0.8; // Altura del cuerpo
+        body.visible = false;
+        this.character.add(body);
     }
 
     actualizarControles() {
