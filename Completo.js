@@ -149,21 +149,6 @@ class Game {
                 const sprite = new THREE.Sprite(spriteMaterial);
                 sprite.position.set(x, y, z);
                 sprite.scale.set(escalaX, escalaY, 1);
-
-                sprite.onBeforeRender = function(renderer, scene, camera) {
-                    // Obtener la posición de la cámara y del sprite
-                    const cameraPos = new THREE.Vector3();
-                    camera.getWorldPosition(cameraPos);
-                    
-                    // Calcular la dirección horizontal hacia la cámara
-                    const direction = new THREE.Vector3();
-                    direction.subVectors(cameraPos, this.position);
-                    
-                    // Mantener solo la rotación en el eje X (horizontal)
-                    direction.y = 0; // Elimina la componente vertical
-                    direction.normalize();
-                };
-
                 this.scene.add(sprite);
                 this.sprites.push(sprite);
             });
