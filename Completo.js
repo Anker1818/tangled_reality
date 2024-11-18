@@ -72,11 +72,11 @@ class Game {
     
             // Sprites (árboles y otros objetos)
             this.ambiente.cargarSprites('Texturas terror/spritearbolpngcopia.png', [
-                { x: -120, y: 0, z: 105, escalaX: 50, escalaY: 100 },  // Árbol 1
-                { x: -80, y: 0, z: 90, escalaX: 80, escalaY: 80 },     // Árbol 2
-                { x: -40, y: 0, z: 70, escalaX: 60, escalaY: 60 },     // Árbol 3
-                { x: 100, y: 0, z: -20, escalaX: 90, escalaY: 90 },    // Árbol 4
-                { x: 50, y: 0, z: 120, escalaX: 70, escalaY: 70 }      // Árbol 5
+                { x: -120, y: 25, z: 105, escalaX: 50, escalaY: 100 },  // Árbol 1
+                { x: -80, y: 40, z: 90, escalaX: 80, escalaY: 80 },     // Árbol 2
+                { x: -40, y: 30, z: 70, escalaX: 60, escalaY: 60 },     // Árbol 3
+                { x: 100, y: 45, z: -20, escalaX: 90, escalaY: 90 },    // Árbol 4
+                { x: 50, y: 35, z: 120, escalaX: 70, escalaY: 70 }      // Árbol 5
             ]);
             
             this.ambiente.cargarSprites('Texturas terror/pastook.png', [
