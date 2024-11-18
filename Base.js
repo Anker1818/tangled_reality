@@ -150,6 +150,22 @@ function shootRay() {
       raycaster.ray.origin.copy(camera.position);
       raycaster.ray.direction.set(0, 0, -1).applyQuaternion(camera.quaternion); // Rayo apuntando hacia adelante
 
+      if (navigator.vibrate) {
+  navigator.vibrate(150); // Vibra durante 200 ms
+} else {
+  console.log("La API de vibración no está soportada en este navegador");
+}
+
+
+      /*
+      gamepad1.vibrationActuator.playEffect("dual-rumble", {
+        startDelay: 0,
+        duration: 100,
+        weakMagnitude: 1.0,
+        strongMagnitude: 1,
+      });
+      */
+
       // Comprobar colisiones con el enemigo
       const intersects = raycaster.intersectObject(enemy);
 
@@ -158,6 +174,8 @@ function shootRay() {
         scene.remove(enemy);
         console.log("Enemigo destruido");
       }
+
+
     }
   }
 }

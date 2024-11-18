@@ -15,18 +15,6 @@ document.body.appendChild( renderer.domElement );
 document.body.appendChild(VRButton.createButton(renderer));
 
 
-// const path = 'objetos/cube/';
-// const format = '.jpg';
-// const urls = [
-// path + 'posx' + format, path + 'negx' + format,
-// path + 'posy' + format, path + 'negy' + format,
-// path + 'posz' + format, path + 'negz' + format
-// ];
-
-// const reflectionCube = new THREE.CubeTextureLoader().load(urls);
-// const refractionCube = new THREE.CubeTextureLoader().load(urls);
-// scene.background = reflectionCube;
-
 const controls = new OrbitControls( camera, renderer.domElement );
 
 //luces
@@ -68,24 +56,6 @@ loader.load(
 
 const textureLoader = new THREE.TextureLoader();
 
-// // Cargar la textura del sprite
-// textureLoader.load('Texturas terror/pngwing.com (1).png', (texture) => {
-//   // Crear el material del sprite
-//   const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
-
-//   // Crear el sprite usando el material
-//   const sprite = new THREE.Sprite(spriteMaterial);
-
-//   // Ajustar la posición o escala del sprite
-//   sprite.position.set(-30, 30, -70); // X, Y, Z
-//   sprite.scale.set(150, 150, 1); // Ancho, Alto, Profundidad (profundidad generalmente no importa en sprites)
-
-//   // Añadir el sprite a la escena
-//   scene.add(sprite);
-// });
-
-// Crear un cargador de texturas
-//const textureLoader = new THREE.TextureLoader();
 
 // Cargar la textura del sprite
 textureLoader.load('Texturas terror/spritearbolpngcopia.png', (texture) => {
@@ -111,13 +81,10 @@ textureLoader.load('Texturas terror/spritearbolpngcopia.png', (texture) => {
   crearSprite(30, 33, 30);
 
   crearSprite(-120, 33, -105);
-  //crearSprite(-80, 33, -90);
-  //crearSprite(-40, 33, -70);
-  //crearSprite(-40, 33, -30);
+
   crearSprite(-100, 33, -20);
   crearSprite(100, 33, -20);
-  //crearSprite(50, 33, -120);
-  //crearSprite(30, 33, -30);
+
 });
 
 textureLoader.load('Texturas terror/arbolterrorokcopia.png', (texture) => {
@@ -134,18 +101,14 @@ textureLoader.load('Texturas terror/arbolterrorokcopia.png', (texture) => {
   
     // Generar varios sprites en diferentes posiciones
     crearSprite(-100, 33, -10);
-    //crearSprite( 28, -33, -5);
+
     crearSprite(122, 33, 120);
-    //crearSprite(-15, 33, -2);
+
     crearSprite(0, 33, 120);
     crearSprite(-80, 33, 120);
     crearSprite(100, 33, 80);
     crearSprite(-100, 33, -100);
-    //crearSprite( 28, 33, -50);
-    //crearSprite(122, 33, -120);
-    //crearSprite(-15, -33, -20);
-    //crearSprite(0, 33, -120);
-    //crearSprite(-80, 33, -120);
+
     crearSprite(100, 33, -80);
   });
 
