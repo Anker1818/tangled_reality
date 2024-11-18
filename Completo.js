@@ -195,7 +195,14 @@ class Personaje {
         this.linterna = new THREE.SpotLight(0xFFFFFF, 900, 50, Math.PI / 4, 0.1, 2);
         this.linterna.position.set(0, 1.6, 0);  // Posición inicial de la linterna (mismo nivel que la cámara)
         this.linterna.decay = 2; 
+        this.linternaTarget = new THREE.Object3D();
+        this.linternaTarget.position.set(0, 1.6, -1); // Un punto adelante de la linterna
+        this.character.add(this.linternaTarget);
+        this.linterna.target = this.linternaTarget;
+        
         this.character.add(this.linterna); 
+        this.scene.add(this.linternaTarget); // Importante: añadir el target a la escena
+        
         this.linternaEncendida = false; 
         this.lastButtonState = false;
     }
@@ -220,8 +227,29 @@ class Personaje {
         this.lastButtonState = false;  // Restablecer el estado del botón
     }
         }
-    }
 
+        if (this.linternaEncendida) {
+            this.actualizarDireccionLinterna();
+        }
+    }
+    actualizarDireccionLinterna() {
+        // Obtener la dirección de la cámara
+        const direccionCamara = new THREE.Vector3();
+        this.character.children[0].getWorldDirection(direccionCamara);
+        
+        // Obtener la posición mundial de la linterna
+        const posicionLinterna = new THREE.Vector3();
+        this.linterna.getWorldPosition(posicionLinterna);
+        
+        // Calcular la posición objetivo delante de la cámara
+        const posicionObjetivo = new THREE.Vector3();
+        posicionObjetivo.copy(posicionLinterna).add(
+            direccionCamara.multiplyScalar(5) // El target estará 5 unidades delante
+        );
+        
+        // Actualizar la posición del target
+        this.linternaTarget.position.copy(posicionObjetivo);
+    }
     mover() {
         const direction = new THREE.Vector3();
         this.character.children[0].getWorldDirection(direction); // Dirección de la cámara
