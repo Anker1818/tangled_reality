@@ -155,28 +155,9 @@ class Game {
                 const sprite = new THREE.Sprite(spriteMaterial);
                 sprite.position.set(x, y, z);
                 sprite.scale.set(escalaX, escalaY, 1);
-                
-                // Mantener el sprite vertical
-                sprite.onBeforeRender = function(renderer, scene, camera) {
-                    // Obtener la posición mundial del sprite
-                    const position = new THREE.Vector3();
-                    this.getWorldPosition(position);
-                    
-                    // Obtener la posición de la cámara
-                    const cameraPosition = new THREE.Vector3();
-                    camera.getWorldPosition(cameraPosition);
-                    
-                    // Calcular la dirección hacia donde debe mirar el sprite
-                    const lookAtPosition = new THREE.Vector3(
-                        position.x + camera.position.x,
-                        position.y,
-                        position.z + camera.position.z
-                    );
-                    
-                    // Hacer que el sprite mire hacia la cámara solo en el eje Y
-                    this.lookAt(lookAtPosition);
-                };
-                
+
+                sprite.matrixAutoUpdate = false;
+                sprite.updateMatrix();
                 this.scene.add(sprite);
                 this.sprites.push(sprite);
             });
