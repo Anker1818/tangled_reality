@@ -28,7 +28,7 @@ class Game {
         const ambientLight = new THREE.AmbientLight(0x404040); // Luz suave
         this.scene.add(ambientLight);
 
-        const pointLight = new THREE.PointLight(0xffffff, 10000, 10000);
+        const pointLight = new THREE.PointLight(0xffffff, 100, 10000);
         pointLight.position.set(-20, 30, 10);
         this.scene.add(pointLight);
 
@@ -188,6 +188,13 @@ class Personaje {
         body.position.y = 0.8; // Altura del cuerpo
         body.visible = false;
         this.character.add(body);
+
+
+                // Linterna (luz puntual)
+                this.linterna = new THREE.PointLight(0xFFFFFF, 1, 100);  // Luz blanca, intensidad 1, distancia 100
+                this.linterna.position.set(0, 1.6, 0);  // Posición inicial de la linterna (mismo nivel que la cámara)
+                this.character.add(this.linterna);  // Agregar la linterna al personaje
+                this.linternaEncendida = false; 
     }
 
     actualizarControles() {
@@ -198,6 +205,11 @@ class Personaje {
 
             this.moveForward = leftStickY < -0.1;
             this.moveBackward = leftStickY > 0.1;
+
+              // Si el botón de encender/apagar la linterna es presionado (por ejemplo, botón 6)
+              if (this.gamepad.buttons[0].value > 0.5) {
+                this.toggleLinterna();  // Alternar estado de la linterna
+            }
         }
     }
 
@@ -245,6 +257,11 @@ class Personaje {
                 console.log("La API de vibración no está soportada en este navegador");
             }
         }
+    }
+
+    toggleLinterna() {
+        this.linternaEncendida = !this.linternaEncendida;
+        this.linterna.visible = this.linternaEncendida;  // Activar o desactivar la linterna
     }
 }
 
