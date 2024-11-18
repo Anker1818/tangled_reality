@@ -5,7 +5,6 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 let gamepad;
 
 window.addEventListener("gamepadconnected", (event) => {
-  console.log("Controlador conectado:", gamepad.id);
 });
 
 
@@ -182,6 +181,19 @@ class Personaje {
         // Controlador
         this.gamepad = null;
 
+                // Sonido de pasos
+                this.listener = new THREE.AudioListener(); // Necesario para escuchar sonidos en 3D
+                camera.add(this.listener); // Asociamos el listener a la cámara
+                this.stepSound = new THREE.Audio(this.listener);
+                const audioLoader = new THREE.AudioLoader();
+                
+                // Cargar el sonido de pasos (cambia la ruta a tu archivo de sonido)
+                audioLoader.load('Efectos de Audio/pasos-normales--normal-steps-sound-effect-hd_01.mp3', (buffer) => {
+                    this.stepSound.setBuffer(buffer);
+                    this.stepSound.setLoop(false); // No lo repetimos
+                    this.stepSound.setVolume(0.5); // Ajusta el volumen
+                });
+
         // Inicializar el personaje con una geometría básica (puedes reemplazarlo con un modelo)
         const bodyGeometry = new THREE.CylinderGeometry(0.3, 0.3, 1.6, 16);
         const bodyMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -256,9 +268,11 @@ class Personaje {
 
         if (this.moveForward) {
             this.character.position.addScaledVector(direction, this.speed);
+             this.reproducirSonidoPasos();
         }
         if (this.moveBackward) {
             this.character.position.addScaledVector(direction, -this.speed);
+            this.reproducirSonidoPasos();
         }
 
         // Gravedad
@@ -273,6 +287,13 @@ class Personaje {
 
         this.character.position.y += this.verticalSpeed;
         
+    }
+
+    reproducirSonidoPasos() {
+        // Si el sonido no se está reproduciendo ya, lo reproducimos
+        if (!this.stepSound.isPlaying) {
+            this.stepSound.play();
+        }
     }
 
     disparar(raycaster, enemy, camera) {
