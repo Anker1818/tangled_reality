@@ -72,11 +72,19 @@ class Game {
     
             // Sprites (árboles y otros objetos)
             this.ambiente.cargarSprites('Texturas terror/spritearbolpngcopia.png', [
-                [-120, 33, 105],
-                [-80, 33, 90],
-                [-40, 33, 70],
-                [100, 33, -20],
-                [50, 33, 120],
+                [-120, 0, 105],
+                [-80, 0, 90],
+                [-40, 0, 70],
+                [100, 0, -20],
+                [50, 0, 120],
+            ]);
+
+            this.ambiente.cargarSprites('Texturas terror/pastook.png', [
+                [120,0, 105],
+                [80,0, 90],
+                [40,0, 70],
+                [110,0, -20],
+                [57,0, 120],
             ]);
         }
         animate() {
