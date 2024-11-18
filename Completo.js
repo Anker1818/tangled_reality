@@ -92,13 +92,7 @@ class Game {
                 this.personaje.actualizarControles();
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
-                if (this.ambiente.sprites.length > 0) {
-                    this.ambiente.sprites.forEach(sprite => {
-                        if (sprite.onBeforeRender) {
-                            sprite.onBeforeRender(this.renderer, this.scene, this.camera);
-                        }
-                    });
-                }
+
                 this.renderer.render(this.scene, this.camera);
             });
 
@@ -156,8 +150,26 @@ class Game {
                 sprite.position.set(x, y, z);
                 sprite.scale.set(escalaX, escalaY, 1);
 
-                sprite.matrixAutoUpdate = false;
-                sprite.updateMatrix();
+                sprite.onBeforeRender = function(renderer, scene, camera) {
+                    // Obtener la posición de la cámara y del sprite
+                    const cameraPos = new THREE.Vector3();
+                    camera.getWorldPosition(cameraPos);
+                    
+                    // Calcular la dirección horizontal hacia la cámara
+                    const direction = new THREE.Vector3();
+                    direction.subVectors(cameraPos, this.position);
+                    
+                    // Mantener solo la rotación en el eje X (horizontal)
+                    direction.y = 0; // Elimina la componente vertical
+                    direction.normalize();
+                    
+                    // Calcular el ángulo en el plano XZ
+                    const angle = Math.atan2(direction.x, direction.z);
+                    
+                    // Aplicar solo la rotación horizontal
+                    this.material.rotation = angle;
+                };
+
                 this.scene.add(sprite);
                 this.sprites.push(sprite);
             });
