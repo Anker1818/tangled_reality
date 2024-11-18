@@ -159,8 +159,8 @@ class Game {
                 // Mantener el sprite vertical
                 sprite.onBeforeRender = function(renderer, scene, camera) {
                     // Obtener la posición mundial del sprite
-                    const spritePosition = new THREE.Vector3();
-                    this.getWorldPosition(spritePosition);
+                    const position = new THREE.Vector3();
+                    this.getWorldPosition(position);
                     
                     // Obtener la posición de la cámara
                     const cameraPosition = new THREE.Vector3();
@@ -168,9 +168,9 @@ class Game {
                     
                     // Calcular la dirección hacia donde debe mirar el sprite
                     const lookAtPosition = new THREE.Vector3(
-                        spritePosition.x + camera.position.x,
-                        spritePosition.y,
-                        spritePosition.z + camera.position.z
+                        position.x + camera.position.x,
+                        position.y,
+                        position.z + camera.position.z
                     );
                     
                     // Hacer que el sprite mire hacia la cámara solo en el eje Y
