@@ -13,6 +13,7 @@ class Game {
     constructor() {
         // Configuración inicial
         this.scene = new THREE.Scene();
+        scene.fog = new THREE.Fog( 0xcccccc, 10, 15 );
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.position.set(0, 5, 10); // Posición de la cámara
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
