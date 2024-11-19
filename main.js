@@ -160,7 +160,7 @@ class VRScene {
     // Cargar textura para el suelo
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load('Texturas terror/piso.jpg', (texture) => {
-      const geometry = new THREE.BoxGeometry(300, 7, 300);
+      const geometry = new THREE.BoxGeometry(500, 7, 500);
       const textureN = new THREE.TextureLoader().load('Texturas terror/pisonormal.png');
       const material = new THREE.MeshPhongMaterial({ map: texture, normalMap: textureN });
       const cube = new THREE.Mesh(geometry, material);
