@@ -37,6 +37,7 @@ class Game {
         this.loadTextures();
         this.loadGLTFModel();
         this.createPlanes();
+        this.createSprite();
 
 
         this.personaje = new Personaje(this.scene, this.camera);
@@ -53,6 +54,21 @@ class Game {
 
 
 
+    }
+
+    createSprite() {
+      // Generar coordenadas aleatorias dentro del mapa
+      const x = Math.random() * this.scene.scale.width;
+      const z = Math.random() * this.scene.scale.height;
+  
+      // Crear el sprite en una posición aleatoria
+      this.sprite = this.scene.add.sprite(x, z, 'Assets/Ojos Malos.png'); // Usa la textura 'ojosMalos'
+      this.sprite.setScale(0.5); // Ajusta el tamaño del sprite si es necesario
+  
+      // Temporizador para eliminar el sprite después de un breve momento
+      this.scene.time.delayedCall(1000, () => {
+        this.sprite.destroy();
+      }, [], this);
     }
 
 
@@ -390,7 +406,6 @@ class Personaje {
         this.linterna.visible = this.linternaEncendida;   // Activar o desactivar la linterna
     }
 }
-
 
 const game = new Game();
 game.animate();
