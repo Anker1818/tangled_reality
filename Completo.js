@@ -69,23 +69,67 @@ class Game {
                 posicion: [0, 0, -180],
                 escala: [5, 5, 5],
             });
+
+            const posiciones = [
+                { x: -200, y: 8.5, z: -160, escalaX: 60, escalaY: 50 },
+                { x: -230, y: 8.5, z: 0, escalaX: 60, escalaY: 50 },
+                { x: -160, y: 8.5, z: 130, escalaX: 60, escalaY: 50 },
+                { x: -40, y: 8.5, z: -220, escalaX: 60, escalaY: 50 },
+                { x: -95, y: 8.5, z: -80, escalaX: 60, escalaY: 50 },
+                { x: 60, y: 8.5, z: -200, escalaX: 60, escalaY: 50 },
+                { x: 130, y: 8.5, z: -230, escalaX: 60, escalaY: 50 },
+                { x: 230, y: 8.5, z: -60, escalaX: 60, escalaY: 50 },
+                { x: 110, y: 8.5, z: -30, escalaX: 60, escalaY: 50 },
+                { x: -190, y: 8.5, z: -190, escalaX: 60, escalaY: 50 },
+                { x: -210, y: 8.5, z: -230, escalaX: 60, escalaY: 50 },
+                { x: -120, y: 8.5, z: -30, escalaX: 60, escalaY: 50 },
+                { x: -80, y: 8.5, z: -10, escalaX: 60, escalaY: 50 },
+                { x: -135, y: 8.5, z: 80, escalaX: 60, escalaY: 50 },
+                { x: -135, y: 8.5, z: -55, escalaX: 60, escalaY: 50 },
+                { x: 135, y: 8.5, z: 55, escalaX: 60, escalaY: 50 },
+                { x: -90, y: 8.5, z: -180, escalaX: 60, escalaY: 50 },
+                { x: 110, y: 8.5, z: 75, escalaX: 60, escalaY: 50 },
+                { x: 90, y: 8.5, z: 140, escalaX: 60, escalaY: 50 },
+                { x: 125, y: 8.5, z: 30, escalaX: 60, escalaY: 50 },
+                { x: 200, y: 8.5, z: 220, escalaX: 60, escalaY: 50 },
+                { x: 230, y: 8.5, z: 90, escalaX: 60, escalaY: 50 },
+                { x: -130, y: 8.5, z: 90, escalaX: 60, escalaY: 50 },
+                { x: -50, y: 8.5, z: 10, escalaX: 60, escalaY: 50 },
+                { x: -125, y: 8.5, z: 60, escalaX: 60, escalaY: 50 },
+                { x: -195, y: 8.5, z: 220, escalaX: 60, escalaY: 50 },
+                { x: -135, y: 8.5, z: 60, escalaX: 60, escalaY: 50 },
+                { x: -185, y: 8.5, z: -50, escalaX: 60, escalaY: 50 },
+                { x: -60, y: 8.5, z: -60, escalaX: 60, escalaY: 50 },
+                { x: 105, y: 8.5, z: -80, escalaX: 60, escalaY: 50 },
+                { x: 25, y: 8.5, z: 30, escalaX: 60, escalaY: 50 },
+                { x: -75, y: 8.5, z: 30, escalaX: 60, escalaY: 50 },
+                { x: -60, y: 8.5, z: 60, escalaX: 60, escalaY: 50 },
+                { x: -230, y: 8.5, z: 60, escalaX: 60, escalaY: 50 },
+                { x: 160, y: 8.5, z: 160, escalaX: 60, escalaY: 50 },
+                { x: 60, y: 8.5, z: 120, escalaX: 60, escalaY: 50 },
+                { x: -60, y: 8.5, z: 120, escalaX: 60, escalaY: 50 },
+                { x: -60, y: 8.5, z: 50, escalaX: 60, escalaY: 50 },
+                { x: -10, y: 8.5, z: 230, escalaX: 60, escalaY: 50 },
+                { x: 30, y: 8.5, z: 120, escalaX: 60, escalaY: 50 },
+                { x: -20, y: 8.5, z: 180, escalaX: 60, escalaY: 50 },
+                { x: 165, y: 8.5, z: 190, escalaX: 60, escalaY: 50 },
+                { x: 80, y: 8.5, z: 225, escalaX: 60, escalaY: 50 },
+                { x: 190, y: 8.5, z: 120, escalaX: 60, escalaY: 50 },
+                { x: -120, y: 8.5, z: 190, escalaX: 60, escalaY: 50 },
+                { x: 50, y: 8.5, z: 200, escalaX: 60, escalaY: 50 },
+                { x: 180, y: 8.5, z: -50, escalaX: 60, escalaY: 50 },
+                { x: 190, y: 8.5, z: 10, escalaX: 60, escalaY: 50 }
+            ];
     
-            // Sprites (árboles y otros objetos)
-            this.ambiente.cargarSprites('Texturas terror/spritearbolpngcopia.png', [
-                { x: -120, y: 25, z: 105, escalaX: 50, escalaY: 100 },  // Árbol 1
-                { x: -80, y: 40, z: 90, escalaX: 80, escalaY: 80 },     // Árbol 2
-                { x: -40, y: 30, z: 70, escalaX: 60, escalaY: 60 },     // Árbol 3
-                { x: 100, y: 45, z: -20, escalaX: 90, escalaY: 90 },    // Árbol 4
-                { x: 50, y: 35, z: 120, escalaX: 70, escalaY: 70 }      // Árbol 5
-            ]);
-            
-            this.ambiente.cargarSprites('Texturas terror/pastook.png', [
-                { x: 120, y: 0, z: 105, escalaX: 60, escalaY: 60 },    // Pasto 1
-                { x: 80, y: 0, z: 90, escalaX: 80, escalaY: 80 },      // Pasto 2
-                { x: 40, y: 0, z: 70, escalaX: 50, escalaY: 50 },      // Pasto 3
-                { x: 110, y: 0, z: -20, escalaX: 100, escalaY: 100 },  // Pasto 4
-                { x: 57, y: 0, z: 120, escalaX: 90, escalaY: 90 }      // Pasto 5
-            ]);
+            const texturas = [
+                'Texturas terror/spritearbolpngcopia.png',
+                'Texturas terror/arbolterrorokcopia.png',
+                'Texturas terror/otraTextura.png'
+            ];
+    
+            this.ambiente.cargarPlanosSecuenciales(texturas, posiciones);
+    
+
         }
         animate() {
             this.renderer.setAnimationLoop(() => {
@@ -105,7 +149,7 @@ class Game {
         this.scene = scene;
         this.textureLoader = new THREE.TextureLoader();
         this.loaderGLTF = new GLTFLoader();
-        this.sprites = [];
+        this.planos= [];
     }
 
     agregarObjetos({ geometria, textura, materialOptions = {}, posicion = [0, 0, 0], rotacion = [0, 0, 0] }) {
@@ -138,22 +182,33 @@ class Game {
         );
     }
 
-    cargarSprites(rutaTextura, configuraciones) {
-        this.textureLoader.load(rutaTextura, (texture) => {
-            const spriteMaterial = new THREE.SpriteMaterial({ 
-                map: texture,
-                sizeAttenuation: true
-            });
-    
-            configuraciones.forEach(({ x, y, z, escalaX = 70, escalaY = 70 }) => {
-                const sprite = new THREE.Sprite(spriteMaterial);
-                sprite.position.set(x, y, z);
-                sprite.scale.set(escalaX, escalaY, 1);
-                this.scene.add(sprite);
-                this.sprites.push(sprite);
-            });
-        });
+    cargarPlanosSecuenciales(texturas, posiciones) {
+        // Iterar sobre las posiciones y alternar las texturas
+        for (let i = 0; i < posiciones.length; i++) {
+            const pos = posiciones[i];
+            const texturePath = texturas[i % texturas.length]; // Alternar las texturas
+            this.createPlane(pos.x, pos.y, pos.z, pos.escalaX || 70, pos.escalaY || 70, texturePath);
+        }
     }
+    
+    createPlane(x, y, z, escalaX, escalaY, texturePath) {
+        // Crear la geometría y el material del plano
+        const geometry = new THREE.PlaneGeometry(escalaX, escalaY);
+        const texture = new THREE.TextureLoader().load(texturePath);
+        const material = new THREE.MeshStandardMaterial({
+            map: texture,
+            side: THREE.DoubleSide,
+            transparent: true
+        });
+    
+        // Crear el mesh del plano
+        const plane = new THREE.Mesh(geometry, material);
+        plane.position.set(x, y, z);
+        this.scene.add(plane);
+        return plane; // Retornar el plano si es necesario
+    }
+
+    
     
 }
 
