@@ -98,6 +98,7 @@ class VRScene {
     }, (error) => {
       console.error('Error al cargar el modelo:', error);
     });
+    
   }
 
   animate() {
