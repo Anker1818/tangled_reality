@@ -35,9 +35,6 @@ class Game {
         // Instanciar Ambiente
         this.ambiente = new Ambiente(this.scene);
         this.initAmbiente();
-        // this.loadTextures();
-        // this.loadGLTFModel();
-        // this.createPlanes();
 
 
         this.personaje = new Personaje(this.scene, this.camera);
@@ -52,229 +49,195 @@ class Game {
         this.enemy.position.set(5, 1, -10);
         this.scene.add(this.enemy);
 
-        this.ojosMalos = new OjosMalos(this.scene);
-        this.ojosMalos.iniciarGeneracion(5000); // Generar cada 5 segundos
-
-
 
 
     }
 
 
-    initAmbiente() {
-      // Piso
-      this.ambiente.agregarObjetos({
-        geometria: new THREE.BoxGeometry(300, 7, 300),
-        textura: 'Texturas terror/piso.jpg',
-        normalMap: 'Texturas terror/pisonormal.png',
-        posicion: [0, -14, 0],
-    });
-
-      // Modelo GLTF (cabaña)
-      this.ambiente.cargarModelo({
-        ruta: 'cabana.glb',
-        posicion: [0, 0, -180],
-        escala: [5, 5, 5],
-    });  
-
-      // Modelo GLTF (arbol)
-      this.ambiente.cargarModelo({
-        ruta: 'arbol_texture.glb',
-        posicion: [0, 0, 145],
-        escala: [5, 5, 5],
-    });
-
-     // Modelo GLTF (arbol)
-     this.ambiente.cargarModelo({
-        ruta: 'arbol_texture.glb',
-        posicion: [-70, 0, 60],
-        escala: [5, 5, 5],
-    });
-
-     // Modelo GLTF (arbol)
-     this.ambiente.cargarModelo({
-        ruta: 'arbol_texture.glb',
-        posicion: [50, 0, 60],
-        escala: [5, 5, 5],
-    });
-
-     // Modelo GLTF (arbol)
-     this.ambiente.cargarModelo({
-        ruta: 'arbol_texture.glb',
-        posicion: [10, 0, 40],
-        escala: [5, 5, 5],
-    });
-
-    this.ambiente.createPlanes( {
-        const positions = [
-          { x: -200, y: 8.5, z: -150 },
-          { x: -230, y: 8.5, z: 0 },
-          { x: -150, y: 8.5, z: 130 },
-          { x: -40, y: 8.5, z: -220 },
-          { x: -95, y: 8.5, z: -80 },
-          { x: 60, y: 8.5, z: -200 },
-          { x: 130, y: 8.5, z: -230 },
-          { x: 230, y: 8.5, z: -60 },
-          { x: 110, y: 8.5, z: -30 },
-          { x: -190, y: 8.5, z: -190 },
-          { x: -210, y: 8.5, z: -230 },
-          { x: -120, y: 8.5, z: -30 },
-          { x: -80, y: 8.5, z: -10 },
-          { x: -135, y: 8.5, z: 80 },
-          { x: -135, y: 8.5, z: -55 },
-          { x: 135, y: 8.5, z: 55 },
-          { x: -90, y: 8.5, z: -180 },
-          { x: 110, y: 8.5, z: 75 },
-          { x: 90, y: 8.5, z: 140 },
-          { x: 125, y: 8.5, z: 30 },
-          { x: 200, y: 8.5, z: 220 },
-          { x: 230, y: 8.5, z: 90 },
-          { x: -130, y: 8.5, z: 90 },
-          { x: -100, y: 8.5, z: 10 },
-          { x: -125, y: 8.5, z: 60 },
-          { x: -195, y: 8.5, z: 220 },
-          { x: -135, y: 8.5, z: 50 },
-          { x: -185, y: 8.5, z: -100 },
-          { x: -60, y: 8.5, z: -50 },
-          { x: 105, y: 8.5, z: -80 },
-          { x: 25, y: 8.5, z: 30 },
-          { x: -75, y: 8.5, z: 30 },
-          { x: -50, y: 8.5, z: 60 },
-          { x: -230, y: 8.5, z: 50 },
-          { x: 160, y: 8.5, z: 150 },
-          { x: 60, y: 8.5, z: 120 },
-          { x: -60, y: 8.5, z: 120 },
-          { x: -60, y: 8.5, z: 100 },
-          { x: -10, y: 8.5, z: 230 },
-          { x: 30, y: 8.5, z: 120 },
-          { x: -20, y: 8.5, z: 180 },
-          { x: 165, y: 8.5, z: 190 },
-          { x: 80, y: 8.5, z: 225 },
-          { x: 190, y: 8.5, z: 120 },
-          { x: -120, y: 8.5, z: 190 },
-          { x: 100, y: 8.5, z: 200 },
-          { x: 180, y: 8.5, z: -100 },
-          { x: 190, y: 8.5, z: 10 },
+        initAmbiente() {
+            // Piso
+            this.ambiente.agregarObjetos({
+                geometria: new THREE.BoxGeometry(300, 7, 300),
+                textura: 'Texturas terror/piso.jpg',
+                normalMap: 'Texturas terror/pisonormal.png',
+                posicion: [0, -14, 0],
+            });
     
-    
-        ];
-    }
+            // Modelo GLTF (cabaña)
+            this.ambiente.cargarModelo({
+                ruta: 'cabana.glb',
+                posicion: [0, 0, -180],
+                escala: [5, 5, 5],
+            });
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [0, 0, 145],
+                escala: [5, 5, 5],
+            });
 
-    }
-      animate() {
-        this.renderer.setAnimationLoop(() => {
-            this.personaje.actualizarControles();
-            this.personaje.mover();
-            this.personaje.disparar(this.raycaster, this.enemy);
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [-70, 0, 60],
+                escala: [5, 5, 5],
+            });
 
-            this.renderer.render(this.scene, this.camera);
-        });
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [50, 0, 60],
+                escala: [5, 5, 5],
+            });
 
-    }
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [10, 0, 40],
+                escala: [5, 5, 5],
+            });
 
-  
+            const posiciones = [
+                { x: -200, y: 8.5, z: -160, escalaX: 60, escalaY: 50 },
+                { x: -230, y: 8.5, z: 0, escalaX: 60, escalaY: 50 },
+                { x: -160, y: 8.5, z: 130, escalaX: 60, escalaY: 50 },
+                { x: -40, y: 8.5, z: -220, escalaX: 60, escalaY: 50 },
+                { x: -95, y: 8.5, z: -80, escalaX: 60, escalaY: 50 },
+                { x: 60, y: 8.5, z: -200, escalaX: 60, escalaY: 50 },
+                { x: 130, y: 8.5, z: -230, escalaX: 60, escalaY: 50 },
+                { x: 230, y: 8.5, z: -60, escalaX: 60, escalaY: 50 },
+                { x: 110, y: 8.5, z: -30, escalaX: 60, escalaY: 50 },
+                { x: -190, y: 8.5, z: -190, escalaX: 60, escalaY: 50 },
+                { x: -210, y: 8.5, z: -230, escalaX: 60, escalaY: 50 },
+                { x: -120, y: 8.5, z: -30, escalaX: 60, escalaY: 50 },
+                { x: -80, y: 8.5, z: -10, escalaX: 60, escalaY: 50 },
+                { x: -135, y: 8.5, z: 80, escalaX: 60, escalaY: 50 },
+                { x: -135, y: 8.5, z: -55, escalaX: 60, escalaY: 50 },
+                { x: 135, y: 8.5, z: 55, escalaX: 60, escalaY: 50 },
+                { x: -90, y: 8.5, z: -180, escalaX: 60, escalaY: 50 },
+                { x: 110, y: 8.5, z: 75, escalaX: 60, escalaY: 50 },
+                { x: 90, y: 8.5, z: 140, escalaX: 60, escalaY: 50 },
+                { x: 125, y: 8.5, z: 30, escalaX: 60, escalaY: 50 },
+                { x: 200, y: 8.5, z: 220, escalaX: 60, escalaY: 50 },
+                { x: 230, y: 8.5, z: 90, escalaX: 60, escalaY: 50 },
+                { x: -130, y: 8.5, z: 90, escalaX: 60, escalaY: 50 },
+                { x: -50, y: 8.5, z: 10, escalaX: 60, escalaY: 50 },
+                { x: -125, y: 8.5, z: 60, escalaX: 60, escalaY: 50 },
+                { x: -195, y: 8.5, z: 220, escalaX: 60, escalaY: 50 },
+                { x: -135, y: 8.5, z: 60, escalaX: 60, escalaY: 50 },
+                { x: -185, y: 8.5, z: -50, escalaX: 60, escalaY: 50 },
+                { x: -60, y: 8.5, z: -60, escalaX: 60, escalaY: 50 },
+                { x: 105, y: 8.5, z: -80, escalaX: 60, escalaY: 50 },
+                { x: 25, y: 8.5, z: 30, escalaX: 60, escalaY: 50 },
+                { x: -75, y: 8.5, z: 30, escalaX: 60, escalaY: 50 },
+                { x: -60, y: 8.5, z: 60, escalaX: 60, escalaY: 50 },
+                { x: -230, y: 8.5, z: 60, escalaX: 60, escalaY: 50 },
+                { x: 160, y: 8.5, z: 160, escalaX: 60, escalaY: 50 },
+                { x: 60, y: 8.5, z: 120, escalaX: 60, escalaY: 50 },
+                { x: -60, y: 8.5, z: 120, escalaX: 60, escalaY: 50 },
+                { x: -60, y: 8.5, z: 50, escalaX: 60, escalaY: 50 },
+                { x: -10, y: 8.5, z: 230, escalaX: 60, escalaY: 50 },
+                { x: 30, y: 8.5, z: 120, escalaX: 60, escalaY: 50 },
+                { x: -20, y: 8.5, z: 180, escalaX: 60, escalaY: 50 },
+                { x: 165, y: 8.5, z: 190, escalaX: 60, escalaY: 50 },
+                { x: 80, y: 8.5, z: 225, escalaX: 60, escalaY: 50 },
+                { x: 190, y: 8.5, z: 120, escalaX: 60, escalaY: 50 },
+                { x: -120, y: 8.5, z: 190, escalaX: 60, escalaY: 50 },
+                { x: 50, y: 8.5, z: 200, escalaX: 60, escalaY: 50 },
+                { x: 180, y: 8.5, z: -50, escalaX: 60, escalaY: 50 },
+                { x: 190, y: 8.5, z: 10, escalaX: 60, escalaY: 50 }
+            ];
+    
+            const texturas = [
+                'Texturas terror/spritearbolpngcopia.png',
+                'Texturas terror/arbolterrorokcopia.png',
+                'Texturas terror/otraTextura.png'
+            ];
+    
+            this.ambiente.cargarPlanosSecuenciales(texturas, posiciones);
+    
 
-     
-    
-     
-
-    
-      
-    
-    //   createPlanes() {
-    //     const positions = [
-    //       { x: -200, y: 8.5, z: -150 },
-    //       { x: -230, y: 8.5, z: 0 },
-    //       { x: -150, y: 8.5, z: 130 },
-    //       { x: -40, y: 8.5, z: -220 },
-    //       { x: -95, y: 8.5, z: -80 },
-    //       { x: 60, y: 8.5, z: -200 },
-    //       { x: 130, y: 8.5, z: -230 },
-    //       { x: 230, y: 8.5, z: -60 },
-    //       { x: 110, y: 8.5, z: -30 },
-    //       { x: -190, y: 8.5, z: -190 },
-    //       { x: -210, y: 8.5, z: -230 },
-    //       { x: -120, y: 8.5, z: -30 },
-    //       { x: -80, y: 8.5, z: -10 },
-    //       { x: -135, y: 8.5, z: 80 },
-    //       { x: -135, y: 8.5, z: -55 },
-    //       { x: 135, y: 8.5, z: 55 },
-    //       { x: -90, y: 8.5, z: -180 },
-    //       { x: 110, y: 8.5, z: 75 },
-    //       { x: 90, y: 8.5, z: 140 },
-    //       { x: 125, y: 8.5, z: 30 },
-    //       { x: 200, y: 8.5, z: 220 },
-    //       { x: 230, y: 8.5, z: 90 },
-    //       { x: -130, y: 8.5, z: 90 },
-    //       { x: -100, y: 8.5, z: 10 },
-    //       { x: -125, y: 8.5, z: 60 },
-    //       { x: -195, y: 8.5, z: 220 },
-    //       { x: -135, y: 8.5, z: 50 },
-    //       { x: -185, y: 8.5, z: -100 },
-    //       { x: -60, y: 8.5, z: -50 },
-    //       { x: 105, y: 8.5, z: -80 },
-    //       { x: 25, y: 8.5, z: 30 },
-    //       { x: -75, y: 8.5, z: 30 },
-    //       { x: -50, y: 8.5, z: 60 },
-    //       { x: -230, y: 8.5, z: 50 },
-    //       { x: 160, y: 8.5, z: 150 },
-    //       { x: 60, y: 8.5, z: 120 },
-    //       { x: -60, y: 8.5, z: 120 },
-    //       { x: -60, y: 8.5, z: 100 },
-    //       { x: -10, y: 8.5, z: 230 },
-    //       { x: 30, y: 8.5, z: 120 },
-    //       { x: -20, y: 8.5, z: 180 },
-    //       { x: 165, y: 8.5, z: 190 },
-    //       { x: 80, y: 8.5, z: 225 },
-    //       { x: 190, y: 8.5, z: 120 },
-    //       { x: -120, y: 8.5, z: 190 },
-    //       { x: 100, y: 8.5, z: 200 },
-    //       { x: 180, y: 8.5, z: -100 },
-    //       { x: 190, y: 8.5, z: 10 },
-    
-    
-    //     ];
-    // }
-    
-        const textures = [
-          'texturas arbol/ArbolFINALCOPIA.png',
-          'Texturas terror/spritearbolpngcopia.png',
-          'Texturas terror/arbolterrorokcopia.png'
-        ];
-    
-        // Crear los planos con las posiciones y texturas definidas
-        for (let i = 0; i < positions.length; i++) {
-          const pos = positions[i];
-          const texturePath = textures[i % textures.length]; // Alterna las texturas
-          this.createPlane(pos.x, pos.y, pos.z, texturePath);
         }
-      
+        animate() {
+            this.renderer.setAnimationLoop(() => {
+                this.personaje.actualizarControles();
+                this.personaje.mover();
+                this.personaje.disparar(this.raycaster, this.enemy);
+
+                this.renderer.render(this.scene, this.camera);
+            });
+
+    }
+}
+
+
+  class Ambiente{ 
+    constructor(scene) {
+        this.scene = scene;
+        this.textureLoader = new THREE.TextureLoader();
+        this.loaderGLTF = new GLTFLoader();
+        this.planos= [];
+    }
+
+    agregarObjetos({ geometria, textura, materialOptions = {}, posicion = [0, 0, 0], rotacion = [0, 0, 0] }) {
+        let texturaCargada = null;
+        if (textura) {
+            texturaCargada = new THREE.TextureLoader().load(textura);
+        }
+
+        const material = new THREE.MeshStandardMaterial({ ...materialOptions, map: texturaCargada });
+        const objeto = new THREE.Mesh(geometria, material);
+
+        objeto.position.set(...posicion);
+        objeto.rotation.set(...rotacion);
+
+        this.scene.add(objeto);
+        return objeto;
+    }
+
+    cargarModelo({ ruta, posicion = [0, 0, 0], escala = [1, 1, 1] }) {
+        this.loaderGLTF.load(
+            ruta,
+            (gltf) => {
+                const model = gltf.scene;
+                model.position.set(...posicion);
+                model.scale.set(...escala);
+                this.scene.add(model);
+            },
+            undefined,
+            (error) => console.error('Error al cargar el modelo:', error)
+        );
+    }
+
+    cargarPlanosSecuenciales(texturas, posiciones) {
+        // Iterar sobre las posiciones y alternar las texturas
+        for (let i = 0; i < posiciones.length; i++) {
+            const pos = posiciones[i];
+            const texturePath = texturas[i % texturas.length]; // Alternar las texturas
+            this.createPlane(pos.x, pos.y, pos.z, pos.escalaX || 70, pos.escalaY || 70, texturePath);
+        }
+    }
     
-      createPlane(x, y, z, texturePath) {
-        const geometry = new THREE.PlaneGeometry(60, 50);
+    createPlane(x, y, z, escalaX, escalaY, texturePath) {
+        // Crear la geometría y el material del plano
+        const geometry = new THREE.PlaneGeometry(escalaX, escalaY);
         const texture = new THREE.TextureLoader().load(texturePath);
         const material = new THREE.MeshStandardMaterial({
-          map: texture,
-          side: THREE.DoubleSide,
-          transparent: true,
+            map: texture,
+            side: THREE.DoubleSide,
+            transparent: true
         });
     
+        // Crear el mesh del plano
         const plane = new THREE.Mesh(geometry, material);
         plane.position.set(x, y, z);
         this.scene.add(plane);
-        return plane;
-      }
-      animate() {
-        this.renderer.setAnimationLoop(() => {
-            this.personaje.actualizarControles();
-            this.personaje.mover();
-            this.personaje.disparar(this.raycaster, this.enemy);
+        return plane; // Retornar el plano si es necesario
+    }
 
-            this.renderer.render(this.scene, this.camera);
-        });
-
+    
+    
 }
-
 
 class Personaje {
     constructor(scene, camera) {
@@ -447,42 +410,5 @@ class Personaje {
 }
 
 
-class OjosMalos {
-  constructor(scene) {
-      this.scene = scene;
-      this.spriteMaterial = new THREE.SpriteMaterial({
-          map: new THREE.TextureLoader().load('Assets/OjosMalos.png'),
-          transparent: true,
-      });
-  }
-
-  generarSprite() {
-      // Crear un sprite
-      const sprite = new THREE.Sprite(this.spriteMaterial);
-
-      // Generar coordenadas aleatorias dentro de un rango
-      const x = (Math.random() - 0.5) * 500; // Ajusta el rango según tu escena
-      const y = 10; // Altura fija
-      const z = (Math.random() - 0.5) * 500;
-
-      sprite.position.set(x, y, z);
-      sprite.scale.set(10, 10, 1); // Escalar el sprite para que sea visible
-
-      // Agregar el sprite a la escena
-      this.scene.add(sprite);
-
-      // Temporizador para eliminar el sprite después de 1 segundo
-      setTimeout(() => {
-          this.scene.remove(sprite);
-      }, 1000);
-  }
-
-  iniciarGeneracion(intervalo = 3000) {
-      // Generar sprites en intervalos regulares
-      setInterval(() => {
-          this.generarSprite();
-      }, intervalo);
-  }
-}
 const game = new Game();
 game.animate();
