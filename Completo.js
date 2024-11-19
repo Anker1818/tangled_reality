@@ -69,6 +69,33 @@ class Game {
                 posicion: [0, 0, -180],
                 escala: [5, 5, 5],
             });
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [0, 0, 145],
+                escala: [5, 5, 5],
+            });
+
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [-70, 0, 60],
+                escala: [5, 5, 5],
+            });
+
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [50, 0, 60],
+                escala: [5, 5, 5],
+            });
+
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [10, 0, 40],
+                escala: [5, 5, 5],
+            });
 
             const posiciones = [
                 { x: -200, y: 8.5, z: -160, escalaX: 60, escalaY: 50 },
