@@ -97,6 +97,8 @@ class Game {
                 escala: [5, 5, 5],
             });
 
+            //prueba
+
             const posiciones = [
                 { x: -200, y: 8.5, z: -160, escalaX: 60, escalaY: 50 },
                 { x: -230, y: 8.5, z: 0, escalaX: 60, escalaY: 50 },
