@@ -63,6 +63,14 @@ class Game {
                 normalMap: 'Texturas terror/pisonormal.png',
                 posicion: [0, -14, 0],
             });
+
+            this.ambiente.agregarObjetos({
+                geometria: new THREE.BoxGeometry(300, 7, 300),
+                textura: 'Texturas terror/piso.jpg',
+                normalMap: 'Texturas terror/pisonormal.png',
+                posicion: [0, -14, 0],
+            });
+    
     
             // Modelo GLTF (cabaña)
             this.ambiente.cargarModelo({
