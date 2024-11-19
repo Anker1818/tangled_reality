@@ -52,6 +52,10 @@ class Game {
         this.enemy.position.set(5, 1, -10);
         this.scene.add(this.enemy);
 
+        this.ojosMalos = new OjosMalos(this.scene);
+        this.ojosMalos.iniciarGeneracion(5000); // Generar cada 5 segundos
+
+
 
 
     }
@@ -443,5 +447,42 @@ class Personaje {
 }
 
 
+class OjosMalos {
+  constructor(scene) {
+      this.scene = scene;
+      this.spriteMaterial = new THREE.SpriteMaterial({
+          map: new THREE.TextureLoader().load('Assets/OjosMalos.png'),
+          transparent: true,
+      });
+  }
+
+  generarSprite() {
+      // Crear un sprite
+      const sprite = new THREE.Sprite(this.spriteMaterial);
+
+      // Generar coordenadas aleatorias dentro de un rango
+      const x = (Math.random() - 0.5) * 500; // Ajusta el rango según tu escena
+      const y = 10; // Altura fija
+      const z = (Math.random() - 0.5) * 500;
+
+      sprite.position.set(x, y, z);
+      sprite.scale.set(10, 10, 1); // Escalar el sprite para que sea visible
+
+      // Agregar el sprite a la escena
+      this.scene.add(sprite);
+
+      // Temporizador para eliminar el sprite después de 1 segundo
+      setTimeout(() => {
+          this.scene.remove(sprite);
+      }, 1000);
+  }
+
+  iniciarGeneracion(intervalo = 3000) {
+      // Generar sprites en intervalos regulares
+      setInterval(() => {
+          this.generarSprite();
+      }, intervalo);
+  }
+}
 const game = new Game();
 game.animate();
