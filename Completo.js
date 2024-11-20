@@ -174,15 +174,26 @@ class Game {
             ruta,
             (gltf) => {
                 const model = gltf.scene;
+    
+                // Establecer posición y escala
                 model.position.set(...posicion);
                 model.scale.set(...escala);
+    
+                // Asignar la propiedad userData.isGLTFModel a todos los Mesh
+                model.traverse((child) => {
+                    if (child.isMesh) {
+                        child.userData.isGLTFModel = true;
+                    }
+                });
+    
+                // Agregar el modelo a la escena
                 this.scene.add(model);
             },
             undefined,
             (error) => console.error('Error al cargar el modelo:', error)
         );
     }
-
+    
     cargarPlanosSecuenciales(texturas, posiciones) {
         // Iterar sobre las posiciones y alternar las texturas
         for (let i = 0; i < posiciones.length; i++) {
@@ -347,12 +358,14 @@ class Personaje {
                 const object = intersects[i].object;
     
                 // Comprobar si es un modelo GLTF/GLB (por su nombre o tipo)
-                if (object.name.includes("GLTF") || object.userData.isGLTFModel) {
+                if (object.userData.isGLTFModel) {
+                    console.log("Este es un modelo GLTF/GLB");
                     if (intersects[i].distance < 0.2) {
                         isBlocked = true; // Bloquea el movimiento si está demasiado cerca
                         break; // No necesitamos seguir buscando
                     }
                 }
+                
             }
         }
     
