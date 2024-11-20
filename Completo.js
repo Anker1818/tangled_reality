@@ -185,6 +185,8 @@ class Game {
                 this.personaje.actualizarPuntero();
                this.enemies.forEach(enemy => {
                    enemy.actualizarPosicion(this.personaje);
+                   enemy.recibirDisparo();
+                   enemy.cambiarColor(color);
 
                });
 
