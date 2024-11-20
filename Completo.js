@@ -64,10 +64,10 @@ class Game {
 
     loadEnemies() {
         // Crear instancias de enemigos con diferentes posiciones y modelos
-        const enemy1 = new Enemy(this.scene, 25, 0, -100, 'Assets/Personaje_2.glb');
-        const enemy2 = new Enemy(this.scene, -50, 0, -20, 'Assets/Personaje_2.glb');
-        const enemy3 = new Enemy(this.scene, -100, 0, -20, 'Assets/Personaje_2.glb');
-        const enemy4 = new Enemy(this.scene, 100, 0, -20, 'Assets/Personaje_2.glb');
+        const enemy1 = new Enemy(this.scene, 25, -10, -100, 'Assets/Personaje_2.glb');
+        const enemy2 = new Enemy(this.scene, -50, -10, -20, 'Assets/Personaje_2.glb');
+        const enemy3 = new Enemy(this.scene, -100, -10, -20, 'Assets/Personaje_2.glb');
+        const enemy4 = new Enemy(this.scene, 100, -10, -20, 'Assets/Personaje_2.glb');
         
         // Agregar a la lista de enemigos
         this.enemies.push(enemy1, enemy2, enemy3, enemy4);
