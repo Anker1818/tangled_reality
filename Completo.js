@@ -526,6 +526,13 @@ if (this.moveBackward) {
                         console.error("La instancia del enemigo no está configurada correctamente o falta el método recibirDisparo.");
                     }
                 }
+
+                            // Vibrar el control al disparar (si el navegador lo soporta)
+            if (navigator.vibrate) {
+                navigator.vibrate(150); // Vibrar durante 150 ms
+            } else {
+                console.log("La API de vibración no está soportada en este navegador");
+            }
             }
     
             console.log("No se detectaron impactos en enemigos.");
