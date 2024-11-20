@@ -370,6 +370,8 @@ class Personaje {
         // Actualizar la posición del target
         this.linternaTarget.position.copy(posicionObjetivo);
     }
+
+    
     mover() {
         const direction = new THREE.Vector3();
         this.character.children[0].getWorldDirection(direction); // Dirección de la cámara
@@ -387,40 +389,51 @@ class Personaje {
     
                 // Comprobar si es un modelo GLTF/GLB (por su nombre o tipo)
                 if (object.userData.isGLTFModel) {
-                    console.log("Este es un modelo GLTF/GLB");
                     if (intersects[i].distance < 0.7) {
                         isBlocked = true; // Bloquea el movimiento si está demasiado cerca
                         break; // No necesitamos seguir buscando
                     }
                 }
-                
             }
         }
     
+        // Verificar límites del área
+        const limites = {
+            minX: -150,
+            maxX: 150,
+            minZ: -150,
+            maxZ: 150,
+        };
+    
+        const nuevaPosicion = this.character.position.clone(); // Clonar para calcular
+    
         // Movimiento hacia adelante
         if (this.moveForward && !isBlocked) {
-            this.character.position.addScaledVector(direction, this.speed);
-            this.reproducirSonidoPasos();
+            nuevaPosicion.addScaledVector(direction, this.speed);
+            if (
+                nuevaPosicion.x >= limites.minX &&
+                nuevaPosicion.x <= limites.maxX &&
+                nuevaPosicion.z >= limites.minZ &&
+                nuevaPosicion.z <= limites.maxZ
+            ) {
+                this.character.position.copy(nuevaPosicion);
+                this.reproducirSonidoPasos();
+            }
         }
     
         // Movimiento hacia atrás (sin bloqueo)
         if (this.moveBackward) {
-            this.character.position.addScaledVector(direction, -this.speed);
-            this.reproducirSonidoPasos();
+            nuevaPosicion.addScaledVector(direction, -this.speed);
+            if (
+                nuevaPosicion.x >= limites.minX &&
+                nuevaPosicion.x <= limites.maxX &&
+                nuevaPosicion.z >= limites.minZ &&
+                nuevaPosicion.z <= limites.maxZ
+            ) {
+                this.character.position.copy(nuevaPosicion);
+                this.reproducirSonidoPasos();
+            }
         }
-
-        // Gravedad
-        if (this.character.position.y > -1) {
-            this.verticalSpeed -= this.gravity;
-        } else {
-            this.verticalSpeed = 0;
-            this.character.position.y = -1;
-        }
-
-        
-
-        this.character.position.y += this.verticalSpeed;
-        
     }
 
     reproducirSonidoPasos() {
