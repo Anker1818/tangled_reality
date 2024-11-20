@@ -398,7 +398,7 @@ class Personaje {
         this.raycaster.ray.direction.copy(direction);
     
         // Determinar la posición del puntero
-        const intersects = this.raycaster.intersectObject(this.scene, true);
+        const intersects = this.raycaster.intersectObject(this.gltf, true);
     
         // Establecer la posición del puntero en una distancia fija
         let pointerPosition = this.raycaster.ray.origin.clone().add(direction.multiplyScalar(this.pointerDistance));
