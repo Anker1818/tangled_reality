@@ -41,29 +41,36 @@ class Game {
         // Raycaster
         this.raycaster = new THREE.Raycaster();
 
+
         // Enemigo
-       const enemyGeometry = new THREE.BoxGeometry(2, 2, 2);
-       const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-       this.enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
-       this.enemy.position.set(5, 1, -10);
-       this.scene.add(this.enemy);
+      const enemyGeometry = new THREE.BoxGeometry(2, 2, 2);
+      const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      this.enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+      this.enemy.position.set(5, 1, -10);
+      this.scene.add(this.enemy);
+      
 
-            // Instanciar enemigos y agregar a la escena
-            this.enemies = [];
-            this.addEnemies();
+
+        // Enemigos
+        this.enemies = [];  // Arreglo para almacenar los enemigos
+
+        // Cargar enemigos en la escena
+        this.loadEnemies();
+
+       
+
 
     }
 
-    addEnemies() {
-        // Crea enemigos y los agrega a la escena
-        for (let i = 0; i < 2; i++) {  // Puedes cambiar la cantidad de enemigos
-            const modelPath = 'Assets/Personaje_2.glb';  // Ruta del modelo del enemigo
-            const enemy = new Enemy(modelPath, this.scene);  // Instancia de un enemigo
-            enemy.añadirEnemigos(modelPath);  // Carga el modelo y lo agrega a la escena
-            this.enemies.push(enemy);  // Guarda al enemigo en el arreglo de enemigos
-        }
+    loadEnemies() {
+        // Crear instancias de enemigos con diferentes posiciones y modelos
+        const enemy1 = new Enemy(this.scene, 5, 0, -10, 'Assets/Personaje_2.glb');
+        const enemy2 = new Enemy(this.scene, -5, 0, -20, 'Assets/Personaje_2.glb');
+        
+        // Agregar a la lista de enemigos
+        this.enemies.push(enemy1);
+        this.enemies.push(enemy2);
     }
-
 
         initAmbiente() {
             // Piso
@@ -176,6 +183,10 @@ class Game {
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
                 this.personaje.actualizarPuntero();
+              // this.enemies.forEach(enemy => {
+              //     enemy.actualizarPosicion(this.personaje);
+
+              // });
 
                 this.renderer.render(this.scene, this.camera);
             });
@@ -549,109 +560,45 @@ if (this.moveBackward) {
 }
 
 
-
-
 class Enemy {
-    constructor(modelPath, scene, character, detectionRadius = 10, speed = 0.2, initialLife = 3) {
+    constructor(scene, x, y, z, modelPath) {
         this.scene = scene;
-        this.character = character;
-        this.detectionRadius = detectionRadius;
-        this.speed = speed;
-        this.life = initialLife;
-        this.isAlive = true;
+        this.position = new THREE.Vector3(x, y, z);
+        this.modelPath = modelPath;
+        this.enemyMesh = null;
+        this.loaderGLTF = new GLTFLoader();
 
-        this.model = null;
-        this.originalMaterial = null; // Guardar el material original
-        this.damageMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Material rojo para daño
-        this.position = new THREE.Vector3();
+        // Llamar a la función para cargar el modelo
+        this.loadModel();
 
-        this.pathPoints = [
-            new THREE.Vector3(-130, 0, -130),
-            new THREE.Vector3(130, 0, -130),
-            new THREE.Vector3(130, 0, 130),
-            new THREE.Vector3(-130, 0, 130)
-        ];
-        this.currentTargetIndex = 0; // Comienza en la primera esquina
-        this.target = this.pathPoints[this.currentTargetIndex];
-        this.chasingPlayer = false;
+        this.speed = 0.05;
+        this.isChasing = false;
     }
 
-    añadirEnemigos(modelPath) {
-        const loader = new GLTFLoader();
-        loader.load(
-            modelPath,
-            (gltf) => {
-                this.model = gltf.scene;
-                this.originalMaterial = this.model.children[0].material; // Asumimos que el material está en el primer hijo
-                this.scene.add(this.model);
-
-                // Posición inicial aleatoria
-                this.position.set(
-                    Math.random() * 20 - 10,
-                    0,
-                    Math.random() * 20 - 10
-                );
-                this.model.position.copy(this.position);
-            },
-            undefined,
-            (error) => console.error('Error loading model:', error)
-        );
+    // Función para cargar el modelo del enemigo
+    loadModel() {
+        this.loaderGLTF.load(this.modelPath, (gltf) => { // Usa this.loaderGLTF
+            this.enemyMesh = gltf.scene;
+            this.enemyMesh.position.set(this.position.x, this.position.y, this.position.z);
+            this.scene.add(this.enemyMesh);
+        }, undefined, (error) => { // Agregar un manejador de errores para depuración
+            console.error('Error al cargar el modelo GLTF:', error);
+        });
     }
 
-    receiveDamage() {
-        if (!this.isAlive) return;
 
-        // Reducir la vida
-        this.life--;
-        if (this.life <= 0) {
-            this.die();
-        } else {
-            // Cambiar temporalmente a la textura de daño
-            this.model.children[0].material = this.damageMaterial;
-            setTimeout(() => {
-                if (this.isAlive) {
-                    this.model.children[0].material = this.originalMaterial;
-                }
-            }, 200); // Cambiar textura por 200 ms
-        }
-    }
 
-    die() {
-        this.isAlive = false;
-        this.scene.remove(this.model); // Retirar de la escena
-        this.model = null; // Limpiar referencia
-    }
-
+    // Actualizar lógica del enemigo, por ejemplo, su movimiento
     update() {
-        if (!this.isAlive || !this.model) return;
-
-        // Verificar la distancia entre el enemigo y el personaje
-        const distanceToPlayer = this.position.distanceTo(this.character.position);
-        if (distanceToPlayer < this.detectionRadius) {
-            this.chasingPlayer = true;
-            this.target = this.character.position; // El enemigo sigue al jugador
-
-            // Hacer que el enemigo mire al jugador
-            this.model.lookAt(this.character.position); // El enemigo apunta hacia el jugador
-        } else {
-            this.chasingPlayer = false;
-            // Movimiento en patrón cuadrado (patrón circular)
-            if (this.position.distanceTo(this.target) < 1) {
-                // Cambiar al siguiente punto del recorrido cuadrado
-                this.currentTargetIndex = (this.currentTargetIndex + 1) % this.pathPoints.length;
-                this.target = this.pathPoints[this.currentTargetIndex];
-            }
+        if (this.enemyMesh) {
+            // Movimiento básico de ejemplo (puedes agregar lógica más compleja aquí)
+            this.enemyMesh.position.x += 0.05;
         }
-
-        // Moverse hacia el objetivo
-        const direction = this.target.clone().sub(this.position).normalize();
-        this.position.add(direction.multiplyScalar(this.speed));
-        this.model.position.copy(this.position);
     }
 }
 
 
 
-
 const game = new Game();
 game.animate();
+
