@@ -68,9 +68,10 @@ class Game {
         const enemy2 = new Enemy(this.scene, -50, -10, -20, 'Assets/Personaje_2.glb');
         const enemy3 = new Enemy(this.scene, -100, -10, -20, 'Assets/Personaje_2.glb');
         const enemy4 = new Enemy(this.scene, 100, -10, -20, 'Assets/Personaje_2.glb');
+        const enemy5 = new Enemy(this.scene, 110, -10, -50, 'Assets/Personaje_2.glb');
         
         // Agregar a la lista de enemigos
-        this.enemies.push(enemy1, enemy2, enemy3, enemy4);
+        this.enemies.push(enemy1, enemy2, enemy3, enemy4, enemy5);
 
     }
 
