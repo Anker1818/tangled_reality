@@ -184,7 +184,7 @@ class Game {
                 this.personaje.disparar(this.raycaster, this.enemy);
                 this.personaje.actualizarPuntero();
                this.enemies.forEach(enemy => {
-                   enemy.mirarHacia(this.personaje);
+                   enemy.actualizarPosicion(this.personaje);
 
                });
 
@@ -586,6 +586,24 @@ class Enemy {
         });
     }
 
+    actualizarPosicion(personaje) {
+        if (this.enemyMesh && personaje.character) {
+            // Calcular distancia al personaje
+            const distancia = this.enemyMesh.position.distanceTo(personaje.character.position);
+
+            // Si está suficientemente cerca, empieza a perseguir
+            if (distancia < 20) {
+                this.isChasing = true;
+                this.perseguir(personaje);
+            } else {
+                this.isChasing = false;
+            }
+
+            // Hacer que el enemigo mire hacia el personaje
+            this.mirarHacia(personaje);
+        }
+    }
+
         // Función para hacer que el enemigo mire hacia el personaje
         mirarHacia(personaje) {
             // Asegurarse de que tanto el enemigo como el personaje están definidos
@@ -595,15 +613,21 @@ class Enemy {
             }
         }
 
+        perseguir(personaje) {
+            if (!this.enemyMesh || !personaje.character) return; // Validar que ambos existen
+        
+            // Calcular la dirección hacia el personaje
+            const direction = new THREE.Vector3();
+            direction.subVectors(personaje.character.position, this.enemyMesh.position);
+            direction.normalize();
+        
+            // Mover al enemigo hacia el personaje
+            this.enemyMesh.position.addScaledVector(direction, this.speed);
+        }
 
 
     // Actualizar lógica del enemigo, por ejemplo, su movimiento
-    update() {
-        if (this.enemyMesh) {
-            // Movimiento básico de ejemplo (puedes agregar lógica más compleja aquí)
-            this.enemyMesh.position.x += 0.05;
-        }
-    }
+
 }
 
 
