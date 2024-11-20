@@ -470,7 +470,7 @@ class Personaje {
     
         if (intersects.length > 0) {
             // Si hay colisión, mover el puntero a la posición de la colisión
-            //pointerPosition.copy(intersects[0].point);
+            pointerPosition.copy(intersects[0].point);
     
             // Cambiar el color del puntero cuando colisiona con algo
             this.pointer.material.color.set(0x0000ff); // Cambiar el color a azul cuando colisiona
