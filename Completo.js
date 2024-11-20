@@ -277,8 +277,8 @@ class Personaje {
 
 
         this.pointer = new THREE.Mesh(
-            new THREE.SphereGeometry(0.1, 16, 16),
-            new THREE.MeshBasicMaterial({ color: 0xff0000 })
+            new THREE.SphereGeometry(0.3, 16, 16),
+            new THREE.MeshBasicMaterial({ color: 0xffffff })
         );
         this.pointer.visible = false; // Inicialmente invisible
         this.scene.add(this.pointer);
@@ -389,26 +389,33 @@ class Personaje {
         }
     }
 
-     actualizarPuntero() {
+    actualizarPuntero() {
         const direction = new THREE.Vector3();
         this.character.children[0].getWorldDirection(direction);
-
+    
         // Configurar el raycaster para que apunte hacia adelante desde el personaje
         this.raycaster.ray.origin.copy(this.character.position);
         this.raycaster.ray.direction.copy(direction);
-
+    
         // Determinar la posición del puntero
         const intersects = this.raycaster.intersectObject(this.scene, true);
+        
         if (intersects.length > 0) {
+            // Si hay colisión, mover el puntero a la posición de la colisión
             this.pointer.position.copy(intersects[0].point);
             this.pointer.visible = true;
+    
+            // Aquí puedes agregar alguna lógica adicional si deseas destacar o cambiar el color del puntero cuando hay una colisión
+            this.pointer.material.color.set(0x0000ff); // Ejemplo de cambiar el color a rojo cuando colisiona con algo
         } else {
-            // Si no hay colisión, el puntero sigue en la dirección
+            // Si no hay colisión, colocar el puntero a una distancia predeterminada
             this.pointer.position.copy(this.raycaster.ray.origin).add(direction.multiplyScalar(this.pointerDistance));
             this.pointer.visible = true;
+    
+            // Puedes agregar algún color o efecto si no hay colisión, por ejemplo, cambiar a un color diferente
+            this.pointer.material.color.set(0xffffff); // Ejemplo de color verde cuando no hay colisión
         }
     }
-
     toggleLinterna() {
         console.log("Linterna cambiada");
         this.linternaEncendida = !this.linternaEncendida;
