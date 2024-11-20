@@ -136,6 +136,7 @@ class Game {
                 this.personaje.actualizarControles();
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
+                this.personaje.actualizarPuntero();
 
                 this.renderer.render(this.scene, this.camera);
             });
@@ -388,7 +389,7 @@ class Personaje {
         }
     }
 
-    actualizarPuntero() {
+     actualizarPuntero() {
         const direction = new THREE.Vector3();
         this.character.children[0].getWorldDirection(direction);
 
