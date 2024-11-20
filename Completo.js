@@ -186,7 +186,7 @@ class Game {
                this.enemies.forEach(enemy => {
                    enemy.actualizarPosicion(this.personaje);
                    enemy.recibirDisparo();
-                   enemy.cambiarColor(color);
+                   enemy.cambiarColor(this.color);
 
                });
 
