@@ -509,9 +509,11 @@ if (this.moveBackward) {
 
             // Si el raycaster colisiona con el enemigo, lo destruye
             const intersects = raycaster.intersectObject(enemy);
-            if (intersects.length > 0) {
+            const intersects1 = raycaster.intersectObject(enemy.enemyMesh, true);
+            if (intersects.length > 0 && intersects1.length >0 ) {
                 this.scene.remove(enemy); // Eliminar enemigo
                 console.log("Enemigo destruido");
+                enemy.recibirDisparo();
             }
 
             // Vibrar el control al disparar (si el navegador lo soporta)
@@ -571,7 +573,8 @@ class Enemy {
         // Llamar a la función para cargar el modelo
         this.loadModel();
 
-        this.speed = 0.07;
+        this.speed = 0.2;
+        this.lives = 3; // Agregar vidas
         this.isChasing = false;
     }
 
@@ -586,13 +589,48 @@ class Enemy {
         });
     }
 
+
+
+        // Método para reducir vidas y manejar su eliminación
+        recibirDisparo() {
+            if (this.lives > 0) {
+                this.lives--;
+                console.log(`Enemigo golpeado, vidas restantes: ${this.lives}`);
+                this.cambiarColor(new THREE.Color(0xff0000)); // Cambiar a rojo
+                setTimeout(() => this.cambiarColor(new THREE.Color(0xffffff)), 200); // Volver al color original después de 200 ms
+    
+                if (this.lives <= 0) {
+                    this.morir();
+                }
+            }
+        }
+    
+        // Método para cambiar el color del enemigo
+        cambiarColor(color) {
+            if (this.enemyMesh) {
+                this.enemyMesh.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material.color = color;
+                    }
+                });
+            }
+        }
+    
+        // Método para eliminar el enemigo
+        morir() {
+            console.log("Enemigo eliminado");
+            this.scene.remove(this.enemyMesh);
+            this.enemyMesh = null; // Liberar referencia
+        }
+    
+
     actualizarPosicion(personaje) {
         if (this.enemyMesh && personaje.character) {
             // Calcular distancia al personaje
             const distancia = this.enemyMesh.position.distanceTo(personaje.character.position);
 
             // Si está suficientemente cerca, empieza a perseguir
-            if (distancia < 20) {
+            if (distancia < 40) {
                 this.isChasing = true;
                 this.perseguir(personaje);
             } else {
