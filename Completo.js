@@ -40,7 +40,7 @@ class Game {
         this.personaje = new Personaje(this.scene, this.camera);
 
         // Raycaster
-
+        this.raycaster = new THREE.Raycaster();
 
         // Enemigo
         const enemyGeometry = new THREE.BoxGeometry(2, 2, 2);
@@ -48,9 +48,6 @@ class Game {
         this.enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
         this.enemy.position.set(5, 1, -10);
         this.scene.add(this.enemy);
-
-
-        this.raycaster = new THREE.Raycaster();
 
 
 
@@ -275,45 +272,6 @@ class Personaje {
         
         this.linternaEncendida = false; 
         this.lastButtonState = false;
-
-        
-
-
-        this.raycaster = new THREE.Raycaster();
-        this.pointerGeometry = new THREE.BufferGeometry();
-        this.pointerMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
-        
-        // Creamos una línea de longitud arbitraria, por ejemplo, 10 unidades
-        const pointerVertices = new Float32Array(2 * 3); // Dos puntos en 3D
-        pointerVertices[3] = 0; // Establecemos el segundo punto a (0,0,-10) por ejemplo
-        pointerVertices[4] = 0;
-        pointerVertices[5] = -10;
-        this.pointerGeometry.setAttribute('position', new THREE.BufferAttribute(pointerVertices, 3));
-        
-        this.pointer = new THREE.Line(this.pointerGeometry, this.pointerMaterial);
-        this.scene.add(this.pointer);
-
-
-
-    }
-
-
-    actualizarPuntero() {
-        // Actualizar la dirección del raycaster
-        const direction = new THREE.Vector3();
-        this.camera.getWorldDirection(direction); // Dirección de la cámara en el mundo
-    
-        // Establecer la nueva dirección de la línea del puntero
-        this.pointer.geometry.attributes.position.array[3] = direction.x * 10;
-        this.pointer.geometry.attributes.position.array[4] = direction.y * 10;
-        this.pointer.geometry.attributes.position.array[5] = direction.z * 10;
-    
-        // Necesitamos actualizar la geometría después de modificarla
-        this.pointer.geometry.attributes.position.needsUpdate = true;
-    
-        // Actualizar la posición del raycaster
-        this.raycaster.ray.origin.copy(this.camera.position); // Usar la posición de la cámara
-        this.raycaster.ray.direction.copy(direction);
     }
 
     actualizarControles() {
