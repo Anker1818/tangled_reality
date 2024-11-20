@@ -335,10 +335,28 @@ class Personaje {
         const direction = new THREE.Vector3();
         this.character.children[0].getWorldDirection(direction); // Dirección de la cámara
 
-        if (this.moveForward) {
-            this.character.position.addScaledVector(direction, this.speed);
-             this.reproducirSonidoPasos();
+        this.raycaster.ray.origin.copy(this.character.position);
+        this.raycaster.ray.direction.copy(direction);
+
+        const intersects = this.raycaster.intersectObjects(this.scene.children, true);
+
+        // Revisar si hay colisión cercana
+        let isBlocked = false;
+        if (intersects.length > 0) {
+            // Revisar la distancia del objeto más cercano
+            const nearest = intersects[0];
+            if (nearest.distance < 0.6) {
+                isBlocked = true; // Bloquea el movimiento si está demasiado cerca
+            }
         }
+    
+        // Movimiento hacia adelante
+        if (this.moveForward && !isBlocked) {
+            this.character.position.addScaledVector(direction, this.speed);
+            this.reproducirSonidoPasos();
+        }
+    
+        // Movimiento hacia atrás (sin bloqueo)
         if (this.moveBackward) {
             this.character.position.addScaledVector(direction, -this.speed);
             this.reproducirSonidoPasos();
@@ -398,7 +416,7 @@ class Personaje {
         this.raycaster.ray.direction.copy(direction);
     
         // Determinar la posición del puntero
-        const intersects = this.raycaster.intersectObject(this.gltf, true);
+        const intersects = this.raycaster.intersectObject(this.scene, true);
     
         // Establecer la posición del puntero en una distancia fija
         let pointerPosition = this.raycaster.ray.origin.clone().add(direction.multiplyScalar(this.pointerDistance));
