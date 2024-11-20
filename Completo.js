@@ -70,6 +70,34 @@ class Game {
                 escala: [5, 5, 5],
             });
 
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [0, 0, 145],
+                escala: [5, 5, 5],
+            });
+
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [-70, 0, 60],
+                escala: [5, 5, 5],
+            });
+
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [50, 0, 60],
+                escala: [5, 5, 5],
+            });
+
+            // Modelo GLTF (arbol)
+            this.ambiente.cargarModelo({
+                ruta: 'arbol_texture.glb',
+                posicion: [10, 0, 40],
+                escala: [5, 5, 5],
+            });
+
+
             const posiciones = [
                 { x: -200, y: 8.5, z: -160, escalaX: 60, escalaY: 50 },
                 { x: -230, y: 8.5, z: 0, escalaX: 60, escalaY: 50 },
@@ -360,7 +388,7 @@ class Personaje {
                 // Comprobar si es un modelo GLTF/GLB (por su nombre o tipo)
                 if (object.userData.isGLTFModel) {
                     console.log("Este es un modelo GLTF/GLB");
-                    if (intersects[i].distance < 0.2) {
+                    if (intersects[i].distance < 0.7) {
                         isBlocked = true; // Bloquea el movimiento si está demasiado cerca
                         break; // No necesitamos seguir buscando
                     }
