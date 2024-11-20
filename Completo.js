@@ -343,10 +343,16 @@ class Personaje {
         // Revisar si hay colisión cercana
         let isBlocked = false;
         if (intersects.length > 0) {
-            // Revisar la distancia del objeto más cercano
-            const nearest = intersects[0];
-            if (nearest.distance < 0.6) {
-                isBlocked = true; // Bloquea el movimiento si está demasiado cerca
+            for (let i = 0; i < intersects.length; i++) {
+                const object = intersects[i].object;
+    
+                // Comprobar si es un modelo GLTF/GLB (por su nombre o tipo)
+                if (object.name.includes("GLTF") || object.userData.isGLTFModel) {
+                    if (intersects[i].distance < 0.2) {
+                        isBlocked = true; // Bloquea el movimiento si está demasiado cerca
+                        break; // No necesitamos seguir buscando
+                    }
+                }
             }
         }
     
