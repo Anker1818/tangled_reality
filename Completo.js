@@ -272,6 +272,19 @@ class Personaje {
         
         this.linternaEncendida = false; 
         this.lastButtonState = false;
+
+
+
+        this.pointer = new THREE.Mesh(
+            new THREE.SphereGeometry(0.1, 16, 16),
+            new THREE.MeshBasicMaterial({ color: 0xff0000 })
+        );
+        this.pointer.visible = false; // Inicialmente invisible
+        this.scene.add(this.pointer);
+
+        // Raycaster para detectar la dirección
+        this.raycaster = new THREE.Raycaster();
+        this.pointerDistance = 5;  // Distancia máxima para el puntero
     }
 
     actualizarControles() {
@@ -372,6 +385,26 @@ class Personaje {
             } else {
                 console.log("La API de vibración no está soportada en este navegador");
             }
+        }
+    }
+
+    actualizarPuntero() {
+        const direction = new THREE.Vector3();
+        this.character.children[0].getWorldDirection(direction);
+
+        // Configurar el raycaster para que apunte hacia adelante desde el personaje
+        this.raycaster.ray.origin.copy(this.character.position);
+        this.raycaster.ray.direction.copy(direction);
+
+        // Determinar la posición del puntero
+        const intersects = this.raycaster.intersectObject(this.scene, true);
+        if (intersects.length > 0) {
+            this.pointer.position.copy(intersects[0].point);
+            this.pointer.visible = true;
+        } else {
+            // Si no hay colisión, el puntero sigue en la dirección
+            this.pointer.position.copy(this.raycaster.ray.origin).add(direction.multiplyScalar(this.pointerDistance));
+            this.pointer.visible = true;
         }
     }
 
