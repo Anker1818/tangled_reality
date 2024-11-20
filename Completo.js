@@ -279,6 +279,7 @@ class Personaje {
                 this.listener = new THREE.AudioListener(); // Necesario para escuchar sonidos en 3D
                 camera.add(this.listener); // Asociamos el listener a la cámara
                 this.stepSound = new THREE.Audio(this.listener);
+                this.disparoSound= new THREE.Audio(this.listener);
                 const audioLoader = new THREE.AudioLoader();
                 
                 // Cargar el sonido de pasos (cambia la ruta a tu archivo de sonido)
@@ -286,6 +287,12 @@ class Personaje {
                     this.stepSound.setBuffer(buffer);
                     this.stepSound.setLoop(false); // No lo repetimos
                     this.stepSound.setVolume(0.5); // Ajusta el volumen
+                });
+
+                audioLoader.load('Efectos de Audio/efecto-de-sonido-de-un-disparo_01.mp3', (buffer) => {
+                    this.disparoSound.setBuffer(buffer);
+                    this.disparoSound.setLoop(false); // No lo repetimos
+                    this.disparoSound.setVolume(0.5); // Ajusta el volumen
                 });
 
         // Inicializar el personaje con una geometría básica (puedes reemplazarlo con un modelo)
@@ -468,11 +475,24 @@ if (this.moveBackward) {
         if (!this.stepSound.isPlaying) {
             this.stepSound.play();
         }
+        
     }
+
+
+    reproducirSonidoDisparo() {
+        // Si el sonido no se está reproduciendo ya, lo reproducimos
+        if (!this.disparoSound.isPlaying) {
+            this.disparoSound.play();
+        }
+        
+    }
+
 
     disparar(raycaster, enemy, camera) {
         if (this.gamepad && this.gamepad.buttons[7].value > 0.5) { // Gatillo derecho presionado
             console.log("Disparo activado");
+
+            this.reproducirSonidoDisparo();
 
             // Configurar raycaster
             raycaster.ray.origin.copy(this.character.position); // Usar la posición del personaje
