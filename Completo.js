@@ -577,8 +577,9 @@ if (this.moveBackward) {
 
 
 class Enemy {
-    constructor(scene, x, y, z, modelPath) {
+    constructor(scene, x, y, z, modelPath, camera) {
         this.scene = scene;
+        this.camera = camera;
         this.position = new THREE.Vector3(x, y, z);
         this.modelPath = modelPath;
         this.enemyMesh = null;
@@ -590,6 +591,14 @@ class Enemy {
         this.speed = 0.2;
         this.lives = 10; // Agregar vidas
         this.isChasing = false;
+
+
+
+
+
+
+
+
     }
 
     // Función para cargar el modelo del enemigo
@@ -607,26 +616,53 @@ class Enemy {
             });
     
             this.scene.add(this.enemyMesh);
+                                    // Sonido de pasos
+                                    this.listener = new THREE.AudioListener(); // Necesario para escuchar sonidos en 3D
+                                    this.enemyMesh.add(this.listener); 
+                                    this.minusSound = new THREE.Audio(this.listener);
+                                    this.deathSound= new THREE.Audio(this.listener);
+                                    const audioLoader = new THREE.AudioLoader();
+                                    
+                                    // Cargar el sonido de pasos (cambia la ruta a tu archivo de sonido)
+                    
+            
+            
+            
+                                    // Cargar el sonido de pasos (cambia la ruta a tu archivo de sonido)
+                                    audioLoader.load('Efectos de Audio/michael-jackson-hee-hee-sound-effect_01.mp3', (buffer) => {
+                                        this.minusSound.setBuffer(buffer);
+                                        this.minusSound.setLoop(false); // No lo repetimos
+                                        this.minusSound.setVolume(0.5); // Ajusta el volumen
+                                    });
+            
+                                    audioLoader.load('Efectos de Audio/oof--sound-effect-hd---homemadesoundeffects.mp3', (buffer) => {
+                                        this.deathSound.setBuffer(buffer);
+                                        this.deathSound.setLoop(false); // No lo repetimos
+                                        this.deathSound.setVolume(0.5); // Ajusta el volumen
+                                    });
+                    
         }, undefined, (error) => {
             console.error('Error al cargar el modelo GLTF:', error);
         });
     }
 
-
-        // Método para reducir vidas y manejar su eliminación
-        recibirDisparo() {
-            if (this.lives > 0) {
-                this.lives--;
-                console.log(`Enemigo golpeado, vidas restantes: ${this.lives}`);
-                this.cambiarColor(new THREE.Color(0xff0000)); // Cambiar a rojo
-                setTimeout(() => this.cambiarColor(new THREE.Color(0xffffff)), 300); // Volver al color original después de 200 ms
-    
-                if (this.lives <= 0) {
-                    this.morir();
-                }
-            }
+    reproducirSonidoMinus() {
+        // Si el sonido no se está reproduciendo ya, lo reproducimos
+        if (!this.minusSound.isPlaying) {
+            this.minusSound.play();
         }
-    
+    }
+
+    reproducirSonidoDeath() {
+        // Si el sonido no se está reproduciendo ya, lo reproducimos
+        if (!this.deathSound.isPlaying) {
+            this.deathSound.play();
+        }
+    }
+
+
+
+
         // Método para cambiar el color del enemigo
   // Función para cargar el modelo del enemigo
   loadModel() {
@@ -653,11 +689,13 @@ class Enemy {
     recibirDisparo() {
         if (this.lives > 0) {
             this.lives--;
+            this.reproducirSonidoMinus()
             console.log(`Enemigo golpeado, vidas restantes: ${this.lives}`);
             this.cambiarColor(new THREE.Color(0xff0000)); // Cambiar a rojo
             setTimeout(() => this.cambiarColor(new THREE.Color(0xffffff)), 300); // Volver al color original después de 200 ms
 
             if (this.lives <= 0) {
+                
                 this.morir();
             }
         }
@@ -685,6 +723,7 @@ class Enemy {
         morir() {
             console.log("Enemigo eliminado");
             this.scene.remove(this.enemyMesh);
+            this.reproducirSonidoDeath()
             this.enemyMesh = null; // Liberar referencia
         }
     
