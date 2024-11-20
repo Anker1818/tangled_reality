@@ -183,10 +183,10 @@ class Game {
                 this.personaje.mover();
                 this.personaje.disparar(this.raycaster, this.enemy);
                 this.personaje.actualizarPuntero();
-              // this.enemies.forEach(enemy => {
-              //     enemy.actualizarPosicion(this.personaje);
+               this.enemies.forEach(enemy => {
+                   enemy.mirarHacia(this.personaje);
 
-              // });
+               });
 
                 this.renderer.render(this.scene, this.camera);
             });
@@ -585,6 +585,15 @@ class Enemy {
             console.error('Error al cargar el modelo GLTF:', error);
         });
     }
+
+        // Función para hacer que el enemigo mire hacia el personaje
+        mirarHacia(personaje) {
+            // Asegurarse de que tanto el enemigo como el personaje están definidos
+            if (this.enemyMesh && personaje.character) {
+                // El enemigo siempre mira hacia el personaje
+                this.enemyMesh.lookAt(personaje.character.position);
+            }
+        }
 
 
 
