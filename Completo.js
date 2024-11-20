@@ -593,7 +593,30 @@ class Enemy {
         this.isChasing = false;
 
 
+                        // Sonido de pasos
+                        this.listener = new THREE.AudioListener(); // Necesario para escuchar sonidos en 3D
+                        this.minusSound = new THREE.Audio(this.listener);
+                        this.deathSound= new THREE.Audio(this.listener);
+                        const audioLoader = new THREE.AudioLoader();
+                        
+                        // Cargar el sonido de pasos (cambia la ruta a tu archivo de sonido)
+        
 
+
+
+                        // Cargar el sonido de pasos (cambia la ruta a tu archivo de sonido)
+                        audioLoader.load('Efectos de Audio/michael-jackson-hee-hee-sound-effect_01.mp3', (buffer) => {
+                            this.minusSound.setBuffer(buffer);
+                            this.minusSound.setLoop(false); // No lo repetimos
+                            this.minusSound.setVolume(0.5); // Ajusta el volumen
+                        });
+
+                        audioLoader.load('Efectos de Audio/oof--sound-effect-hd---homemadesoundeffects.mp3', (buffer) => {
+                            this.deathSound.setBuffer(buffer);
+                            this.deathSound.setLoop(false); // No lo repetimos
+                            this.deathSound.setVolume(0.5); // Ajusta el volumen
+                        });
+        
 
 
 
@@ -616,31 +639,6 @@ class Enemy {
             });
     
             this.scene.add(this.enemyMesh);
-                                    // Sonido de pasos
-                                    this.listener = new THREE.AudioListener(); // Necesario para escuchar sonidos en 3D
-                                    this.enemyMesh.add(this.listener); 
-                                    this.minusSound = new THREE.Audio(this.listener);
-                                    this.deathSound= new THREE.Audio(this.listener);
-                                    const audioLoader = new THREE.AudioLoader();
-                                    
-                                    // Cargar el sonido de pasos (cambia la ruta a tu archivo de sonido)
-                    
-            
-            
-            
-                                    // Cargar el sonido de pasos (cambia la ruta a tu archivo de sonido)
-                                    audioLoader.load('Efectos de Audio/michael-jackson-hee-hee-sound-effect_01.mp3', (buffer) => {
-                                        this.minusSound.setBuffer(buffer);
-                                        this.minusSound.setLoop(false); // No lo repetimos
-                                        this.minusSound.setVolume(0.5); // Ajusta el volumen
-                                    });
-            
-                                    audioLoader.load('Efectos de Audio/oof--sound-effect-hd---homemadesoundeffects.mp3', (buffer) => {
-                                        this.deathSound.setBuffer(buffer);
-                                        this.deathSound.setLoop(false); // No lo repetimos
-                                        this.deathSound.setVolume(0.5); // Ajusta el volumen
-                                    });
-                    
         }, undefined, (error) => {
             console.error('Error al cargar el modelo GLTF:', error);
         });
