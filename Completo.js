@@ -589,7 +589,7 @@ class Enemy {
         this.loadModel();
 
         this.speed = 0.2;
-        this.lives = 10; // Agregar vidas
+        this.lives = 40; // Agregar vidas
         this.isChasing = false;
 
 
@@ -608,13 +608,13 @@ class Enemy {
                         audioLoader.load('Efectos de Audio/michael-jackson-hee-hee-sound-effect_01.mp3', (buffer) => {
                             this.minusSound.setBuffer(buffer);
                             this.minusSound.setLoop(false); // No lo repetimos
-                            this.minusSound.setVolume(0.5); // Ajusta el volumen
+                            this.minusSound.setVolume(0.8); // Ajusta el volumen
                         });
 
                         audioLoader.load('Efectos de Audio/oof--sound-effect-hd---homemadesoundeffects.mp3', (buffer) => {
                             this.deathSound.setBuffer(buffer);
                             this.deathSound.setLoop(false); // No lo repetimos
-                            this.deathSound.setVolume(0.5); // Ajusta el volumen
+                            this.deathSound.setVolume(0.8); // Ajusta el volumen
                         });
         
 
