@@ -49,7 +49,17 @@ class Game {
         this.scene.add(this.enemy);
 
 
+        this.añadirEnemigos();
 
+    }
+
+    añadirEnemigos() {
+        for (let i = 0; i < 5; i++) {  // Aquí puedes cambiar la cantidad de enemigos
+            const modelPath = "Assets/Personaje1.gltf";  // Ruta del modelo del enemigo
+            const enemy = new Enemy(modelPath, this.scene, this.character);
+            enemy.añadirEnemigos(modelPath);  // Cargar y añadir el enemigo
+            this.enemies.push(enemy);  // Agregar el enemigo a la lista
+        }
     }
 
 
@@ -378,20 +388,6 @@ class Personaje {
     }
 
 
-    inicializarLimitesFijos() {
-        this.limites = {
-            minX: -150,
-            maxX: 150,
-            minZ: -150,
-            maxZ: 150,
-        };
-    }
-    
-    verificarLimitesFijos(posicion) {
-        const { x, z } = posicion;
-        const { minX, maxX, minZ, maxZ } = this.limites;
-        return x >= minX && x <= maxX && z >= minZ && z <= maxZ;
-    }
     
     mover() {
         const direction = new THREE.Vector3();
@@ -549,6 +545,110 @@ if (this.moveBackward) {
         this.linterna.visible = this.linternaEncendida;   // Activar o desactivar la linterna
     }
 }
+
+
+
+
+class Enemy {
+    constructor(modelPath, scene, character, detectionRadius = 10, speed = 0.2, initialLife = 3) {
+        this.scene = scene;
+        this.character = character;
+        this.detectionRadius = detectionRadius;
+        this.speed = speed;
+        this.life = initialLife;
+        this.isAlive = true;
+
+        this.model = null;
+        this.originalMaterial = null; // Guardar el material original
+        this.damageMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Material rojo para daño
+        this.position = new THREE.Vector3();
+
+        this.pathPoints = [
+            new THREE.Vector3(-130, 0, -130),
+            new THREE.Vector3(130, 0, -130),
+            new THREE.Vector3(130, 0, 130),
+            new THREE.Vector3(-130, 0, 130)
+        ];
+        this.currentTargetIndex = 0; // Comienza en la primera esquina
+        this.target = this.pathPoints[this.currentTargetIndex];
+        this.chasingPlayer = false;
+    }
+
+    añadirEnemigos(modelPath) {
+        const loader = new GLTFLoader();
+        loader.load(
+            modelPath,
+            (gltf) => {
+                this.model = gltf.scene;
+                this.originalMaterial = this.model.children[0].material; // Asumimos que el material está en el primer hijo
+                this.scene.add(this.model);
+
+                // Posición inicial aleatoria
+                this.position.set(
+                    Math.random() * 20 - 10,
+                    0,
+                    Math.random() * 20 - 10
+                );
+                this.model.position.copy(this.position);
+            },
+            undefined,
+            (error) => console.error('Error loading model:', error)
+        );
+    }
+
+    receiveDamage() {
+        if (!this.isAlive) return;
+
+        // Reducir la vida
+        this.life--;
+        if (this.life <= 0) {
+            this.die();
+        } else {
+            // Cambiar temporalmente a la textura de daño
+            this.model.children[0].material = this.damageMaterial;
+            setTimeout(() => {
+                if (this.isAlive) {
+                    this.model.children[0].material = this.originalMaterial;
+                }
+            }, 200); // Cambiar textura por 200 ms
+        }
+    }
+
+    die() {
+        this.isAlive = false;
+        this.scene.remove(this.model); // Retirar de la escena
+        this.model = null; // Limpiar referencia
+    }
+
+    update() {
+        if (!this.isAlive || !this.model) return;
+
+        // Verificar la distancia entre el enemigo y el personaje
+        const distanceToPlayer = this.position.distanceTo(this.character.position);
+        if (distanceToPlayer < this.detectionRadius) {
+            this.chasingPlayer = true;
+            this.target = this.character.position; // El enemigo sigue al jugador
+
+            // Hacer que el enemigo mire al jugador
+            this.model.lookAt(this.character.position); // El enemigo apunta hacia el jugador
+        } else {
+            this.chasingPlayer = false;
+            // Movimiento en patrón cuadrado (patrón circular)
+            if (this.position.distanceTo(this.target) < 1) {
+                // Cambiar al siguiente punto del recorrido cuadrado
+                this.currentTargetIndex = (this.currentTargetIndex + 1) % this.pathPoints.length;
+                this.target = this.pathPoints[this.currentTargetIndex];
+            }
+        }
+
+        // Moverse hacia el objetivo
+        const direction = this.target.clone().sub(this.position).normalize();
+        this.position.add(direction.multiplyScalar(this.speed));
+        this.model.position.copy(this.position);
+    }
+}
+
+
 
 
 const game = new Game();
