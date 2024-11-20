@@ -571,7 +571,7 @@ class Enemy {
         // Llamar a la función para cargar el modelo
         this.loadModel();
 
-        this.speed = 0.05;
+        this.speed = 0.07;
         this.isChasing = false;
     }
 
