@@ -43,11 +43,11 @@ class Game {
 
 
         // Enemigo
-      const enemyGeometry = new THREE.BoxGeometry(2, 2, 2);
-      const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      this.enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
-      this.enemy.position.set(5, 1, -10);
-      this.scene.add(this.enemy);
+    //   const enemyGeometry = new THREE.BoxGeometry(2, 2, 2);
+    //   const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    //   this.enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+    //   this.enemy.position.set(5, 1, -10);
+    //   this.scene.add(this.enemy);
       
 
 
