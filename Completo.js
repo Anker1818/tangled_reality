@@ -64,12 +64,14 @@ class Game {
 
     loadEnemies() {
         // Crear instancias de enemigos con diferentes posiciones y modelos
-        const enemy1 = new Enemy(this.scene, 5, 0, -10, 'Assets/Personaje_2.glb');
-        const enemy2 = new Enemy(this.scene, -5, 0, -20, 'Assets/Personaje_2.glb');
+        const enemy1 = new Enemy(this.scene, 25, 0, -100, 'Assets/Personaje_2.glb');
+        const enemy2 = new Enemy(this.scene, -50, 0, -20, 'Assets/Personaje_2.glb');
+        const enemy3 = new Enemy(this.scene, -100, 0, -20, 'Assets/Personaje_2.glb');
+        const enemy4 = new Enemy(this.scene, 100, 0, -20, 'Assets/Personaje_2.glb');
         
         // Agregar a la lista de enemigos
-        this.enemies.push(enemy1);
-        this.enemies.push(enemy2);
+        this.enemies.push(enemy1, enemy2, enemy3, enemy4);
+
     }
 
         initAmbiente() {
@@ -185,7 +187,6 @@ class Game {
                 this.personaje.actualizarPuntero();
                this.enemies.forEach(enemy => {
                    enemy.actualizarPosicion(this.personaje);
-                   enemy.recibirDisparo();
                    enemy.cambiarColor(this.color);
 
                });
@@ -499,31 +500,35 @@ if (this.moveBackward) {
     }
 
 
-    disparar(raycaster, enemy, camera) {
+    disparar(raycaster, camera) {
         if (this.gamepad && this.gamepad.buttons[7].value > 0.5) { // Gatillo derecho presionado
             console.log("Disparo activado");
-
+    
             this.reproducirSonidoDisparo();
-
-            // Configurar raycaster
-            raycaster.ray.origin.copy(this.character.position); // Usar la posición del personaje
-            raycaster.ray.direction.set(0, 0, -1).applyQuaternion(this.character.children[0].quaternion); // Dirección de la cámara
-
-            // Si el raycaster colisiona con el enemigo, lo destruye
-            const intersects = raycaster.intersectObject(enemy);
-            const intersects1 = raycaster.intersectObject(enemy.enemyMesh, true);
-            if (intersects.length > 0 && intersects1.length >0 ) {
-                this.scene.remove(enemy); // Eliminar enemigo
-                console.log("Enemigo destruido");
-                enemy.recibirDisparo();
+    
+            // Configurar el raycaster
+            raycaster.ray.origin.copy(this.character.position);
+            raycaster.ray.direction.set(0, 0, -1).applyQuaternion(this.character.children[0].quaternion);
+    
+            // Detectar intersecciones
+            const intersects = raycaster.intersectObjects(this.scene.children, true);
+            for (let i = 0; i < intersects.length; i++) {
+                const intersectedObject = intersects[i].object;
+    
+                if (intersectedObject.userData.isEnemy) {
+                    const enemyInstance = intersectedObject.userData.enemyInstance;
+    
+                    // Validar antes de llamar a `recibirDisparo`
+                    if (enemyInstance && typeof enemyInstance.recibirDisparo === "function") {
+                        enemyInstance.recibirDisparo();
+                        return; // Salir después de impactar
+                    } else {
+                        console.error("La instancia del enemigo no está configurada correctamente o falta el método recibirDisparo.");
+                    }
+                }
             }
-
-            // Vibrar el control al disparar (si el navegador lo soporta)
-            if (navigator.vibrate) {
-                navigator.vibrate(150); // Vibrar durante 150 ms
-            } else {
-                console.log("La API de vibración no está soportada en este navegador");
-            }
+    
+            console.log("No se detectaron impactos en enemigos.");
         }
     }
 
@@ -576,21 +581,29 @@ class Enemy {
         this.loadModel();
 
         this.speed = 0.2;
-        this.lives = 3; // Agregar vidas
+        this.lives = 10; // Agregar vidas
         this.isChasing = false;
     }
 
     // Función para cargar el modelo del enemigo
     loadModel() {
-        this.loaderGLTF.load(this.modelPath, (gltf) => { // Usa this.loaderGLTF
+        this.loaderGLTF.load(this.modelPath, (gltf) => {
             this.enemyMesh = gltf.scene;
             this.enemyMesh.position.set(this.position.x, this.position.y, this.position.z);
+    
+            // Configurar `userData` para todos los hijos del modelo
+            this.enemyMesh.traverse((child) => {
+                if (child.isMesh) {
+                    child.userData.isEnemy = true;
+                    child.userData.enemyInstance = this; // Asociar instancia del enemigo
+                }
+            });
+    
             this.scene.add(this.enemyMesh);
-        }, undefined, (error) => { // Agregar un manejador de errores para depuración
+        }, undefined, (error) => {
             console.error('Error al cargar el modelo GLTF:', error);
         });
     }
-
 
 
         // Método para reducir vidas y manejar su eliminación
@@ -599,7 +612,7 @@ class Enemy {
                 this.lives--;
                 console.log(`Enemigo golpeado, vidas restantes: ${this.lives}`);
                 this.cambiarColor(new THREE.Color(0xff0000)); // Cambiar a rojo
-                setTimeout(() => this.cambiarColor(new THREE.Color(0xffffff)), 200); // Volver al color original después de 200 ms
+                setTimeout(() => this.cambiarColor(new THREE.Color(0xffffff)), 300); // Volver al color original después de 200 ms
     
                 if (this.lives <= 0) {
                     this.morir();
@@ -608,16 +621,59 @@ class Enemy {
         }
     
         // Método para cambiar el color del enemigo
-        cambiarColor(color) {
-            if (this.enemyMesh) {
-                this.enemyMesh.traverse((child) => {
-                    if (child.isMesh) {
-                        child.material.color = color;
-                    }
-                });
+  // Función para cargar el modelo del enemigo
+  loadModel() {
+    this.loaderGLTF.load(this.modelPath, (gltf) => {
+        this.enemyMesh = gltf.scene;
+        this.enemyMesh.position.set(this.position.x, this.position.y, this.position.z);
+
+        // Configurar `userData` para todos los hijos del modelo
+        this.enemyMesh.traverse((child) => {
+            if (child.isMesh) {
+                child.userData.isEnemy = true;
+                child.userData.enemyInstance = this; // Asociar instancia del enemigo
+            }
+        });
+
+        this.scene.add(this.enemyMesh);
+    }, undefined, (error) => {
+        console.error('Error al cargar el modelo GLTF:', error);
+    });
+}
+
+
+    // Método para reducir vidas y manejar su eliminación
+    recibirDisparo() {
+        if (this.lives > 0) {
+            this.lives--;
+            console.log(`Enemigo golpeado, vidas restantes: ${this.lives}`);
+            this.cambiarColor(new THREE.Color(0xff0000)); // Cambiar a rojo
+            setTimeout(() => this.cambiarColor(new THREE.Color(0xffffff)), 300); // Volver al color original después de 200 ms
+
+            if (this.lives <= 0) {
+                this.morir();
             }
         }
-    
+    }
+
+    // Método para cambiar el color del enemigo
+    cambiarColor(color) {
+        if (this.enemyMesh) {
+            this.enemyMesh.traverse((child) => {
+                if (child.isMesh) {
+                    // Si el material tiene un mapa de textura, cambia el color base
+                    if (child.material.map) {
+                        // Solo cambiar el color base si tiene una textura
+                        child.material.color.set(color);
+                    } else {
+                        // Si no tiene textura, cambiar el color directamente
+                        child.material.color.set(color);
+                    }
+                    child.material.needsUpdate = true;
+                }
+            });
+        }
+    }
         // Método para eliminar el enemigo
         morir() {
             console.log("Enemigo eliminado");
