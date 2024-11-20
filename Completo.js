@@ -42,23 +42,25 @@ class Game {
         this.raycaster = new THREE.Raycaster();
 
         // Enemigo
-        const enemyGeometry = new THREE.BoxGeometry(2, 2, 2);
-        const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-        this.enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
-        this.enemy.position.set(5, 1, -10);
-        this.scene.add(this.enemy);
+       const enemyGeometry = new THREE.BoxGeometry(2, 2, 2);
+       const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+       this.enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+       this.enemy.position.set(5, 1, -10);
+       this.scene.add(this.enemy);
 
-
-        this.añadirEnemigos();
+            // Instanciar enemigos y agregar a la escena
+            this.enemies = [];
+            this.addEnemies();
 
     }
 
-    añadirEnemigos() {
-        for (let i = 0; i < 5; i++) {  // Aquí puedes cambiar la cantidad de enemigos
-            const modelPath = "Assets/Personaje1.gltf";  // Ruta del modelo del enemigo
-            const enemy = new Enemy(modelPath, this.scene, this.character);
-            enemy.añadirEnemigos(modelPath);  // Cargar y añadir el enemigo
-            this.enemies.push(enemy);  // Agregar el enemigo a la lista
+    addEnemies() {
+        // Crea enemigos y los agrega a la escena
+        for (let i = 0; i < 2; i++) {  // Puedes cambiar la cantidad de enemigos
+            const modelPath = 'Assets/Personaje_2.glb';  // Ruta del modelo del enemigo
+            const enemy = new Enemy(modelPath, this.scene);  // Instancia de un enemigo
+            enemy.añadirEnemigos(modelPath);  // Carga el modelo y lo agrega a la escena
+            this.enemies.push(enemy);  // Guarda al enemigo en el arreglo de enemigos
         }
     }
 
